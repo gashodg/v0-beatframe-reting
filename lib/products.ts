@@ -27,6 +27,11 @@ export type Product = {
   gallery: string[]
   featured?: boolean
   stock: number
+  /**
+   * True si la imagen original viene con fondo blanco y requiere integración
+   * con mix-blend-mode sobre el fondo oscuro del sitio.
+   */
+  whiteBg?: boolean
 }
 
 export const categories: { slug: ProductCategory; label: string; description: string }[] = [
@@ -114,8 +119,9 @@ export const products: Product[] = [
       { label: "Montura", value: "Sony E" },
     ],
     includes: ["Batería NP-FZ100", "Cargador", "Correa", "Tarjeta SD 64 GB (opcional)"],
-    image: "/sony-alpha-a7iii-mirrorless-camera.jpg",
-    gallery: ["/sony-alpha-a7iii-mirrorless-camera.jpg", "/professional-mirrorless-cinema-camera.jpg"],
+    image: "/products/sony-a7iii.webp",
+    gallery: ["/products/sony-a7iii.webp", "/professional-mirrorless-cinema-camera.jpg"],
+    whiteBg: true,
   },
   {
     slug: "sony-rx100-m4",
@@ -135,8 +141,9 @@ export const products: Product[] = [
       { label: "Salida", value: "Micro HDMI" },
     ],
     includes: ["Batería", "Cargador", "Funda"],
-    image: "/sony-rx100-compact-camera.jpg",
-    gallery: ["/sony-rx100-compact-camera.jpg"],
+    image: "/products/sony-rx100.webp",
+    gallery: ["/products/sony-rx100.webp"],
+    whiteBg: true,
   },
 
   // ───────── LENTES ─────────
@@ -363,8 +370,9 @@ export const products: Product[] = [
       { label: "Conversión", value: "24 bit / 192 kHz" },
     ],
     includes: ["Cable USB"],
-    image: "/focusrite-scarlett-audio-interface-red.jpg",
-    gallery: ["/focusrite-scarlett-audio-interface-red.jpg"],
+    image: "/products/focusrite-scarlett.avif",
+    gallery: ["/products/focusrite-scarlett.avif"],
+    whiteBg: true,
   },
   {
     slug: "tascam-dr40",
@@ -403,8 +411,9 @@ export const products: Product[] = [
       { label: "Autonomía", value: "10 h" },
     ],
     includes: ["3x headsets", "Base/hub", "Cables de carga"],
-    image: "/hollyland-intercom-headset-system.jpg",
-    gallery: ["/hollyland-intercom-headset-system.jpg"],
+    image: "/products/intercom-hollyland.webp",
+    gallery: ["/products/intercom-hollyland.webp"],
+    whiteBg: true,
   },
   {
     slug: "hollyland-lark-wireless-mics",
@@ -484,8 +493,9 @@ export const products: Product[] = [
       { label: "Resolución", value: "4K 30p · 1080p 60p" },
     ],
     includes: ["Cable USB-C"],
-    image: "/elgato-capture-card-internal-pcie.jpg",
-    gallery: ["/elgato-capture-card-internal-pcie.jpg"],
+    image: "/products/avio-4k.webp",
+    gallery: ["/products/avio-4k.webp"],
+    whiteBg: true,
   },
   {
     slug: "capturadora-usb-hd",
@@ -504,8 +514,9 @@ export const products: Product[] = [
       { label: "Resolución", value: "1080p 30" },
     ],
     includes: ["Cable USB"],
-    image: "/video-capture-card-device-black.jpg",
-    gallery: ["/video-capture-card-device-black.jpg"],
+    image: "/products/capturadora-generica.jpg",
+    gallery: ["/products/capturadora-generica.jpg"],
+    whiteBg: true,
   },
 
   // ───────── TRANSMISORES INALÁMBRICOS ─────────
@@ -608,8 +619,9 @@ export const products: Product[] = [
       { label: "Resolución", value: "Hasta 1080p 60" },
     ],
     includes: ["Fuente de alimentación"],
-    image: "/blackmagic-micro-converter-small-device.jpg",
-    gallery: ["/blackmagic-micro-converter-small-device.jpg"],
+    image: "/products/conversor-hdmi-sdi.jpg",
+    gallery: ["/products/conversor-hdmi-sdi.jpg"],
+    whiteBg: true,
   },
   {
     slug: "conversor-sdi-a-hdmi",
@@ -628,8 +640,9 @@ export const products: Product[] = [
       { label: "Resolución", value: "Hasta 1080p 60" },
     ],
     includes: ["Fuente de alimentación"],
-    image: "/decimator-video-converter-professional.jpg",
-    gallery: ["/decimator-video-converter-professional.jpg"],
+    image: "/products/conversor-sdi-hdmi.avif",
+    gallery: ["/products/conversor-sdi-hdmi.avif"],
+    whiteBg: true,
   },
 
   // ───────── SPLITTERS ─────────
@@ -689,8 +702,9 @@ export const products: Product[] = [
       { label: "Resolución", value: "4K 60p" },
     ],
     includes: ["Cable"],
-    image: "/hdmi-cable-coiled-black-professional.jpg",
-    gallery: ["/hdmi-cable-coiled-black-professional.jpg"],
+    image: "/products/cable-hdmi-fibra-30m.jpg",
+    gallery: ["/products/cable-hdmi-fibra-30m.jpg"],
+    whiteBg: true,
   },
   {
     slug: "cable-sdi-30m",
@@ -709,8 +723,9 @@ export const products: Product[] = [
       { label: "Ancho de banda", value: "3G-SDI" },
     ],
     includes: ["Cable"],
-    image: "/coiled-bnc-sdi-cable-professional.jpg",
-    gallery: ["/coiled-bnc-sdi-cable-professional.jpg"],
+    image: "/products/cable-sdi-30m.jpg",
+    gallery: ["/products/cable-sdi-30m.jpg"],
+    whiteBg: true,
   },
   {
     slug: "cable-hdmi-10m",
@@ -886,13 +901,15 @@ export const products: Product[] = [
     pricePerDay: 7,
     stock: 1,
     shortDescription: "Trípode compacto de bajo perfil.",
-    description: "Trípode compacto y estable para cámaras pequeñas o en ubicaciones de bajo perfil.",
+    description: "Trípode compacto y estable Manbily, cabeza plegable. Para cámaras pequeñas o en ubicaciones de bajo perfil.",
     specs: [
-      { label: "Altura máxima", value: "120 cm" },
+      { label: "Altura máxima", value: "20 cm (plegable)" },
+      { label: "Marca", value: "Manbily" },
     ],
-    includes: ["Zapata"],
-    image: "/professional-video-tripod-fluid-head.jpg",
-    gallery: ["/professional-video-tripod-fluid-head.jpg"],
+    includes: ["Trípode plegable"],
+    image: "/products/tripode-base-fuerte.jpg",
+    gallery: ["/products/tripode-base-fuerte.jpg"],
+    whiteBg: true,
   },
   {
     slug: "tripode-mini",
@@ -999,8 +1016,9 @@ export const products: Product[] = [
       { label: "Extensión", value: "55 cm" },
     ],
     includes: ["Brazo", "Super Clamp"],
-    image: "/neewer-magic-arm-articulated-grip.jpg",
-    gallery: ["/neewer-magic-arm-articulated-grip.jpg"],
+    image: "/products/brazo-manfrotto-grande.jpg",
+    gallery: ["/products/brazo-manfrotto-grande.jpg"],
+    whiteBg: true,
   },
   {
     slug: "brazo-magico-neewer-std",
@@ -1016,9 +1034,10 @@ export const products: Product[] = [
       { label: "Carga", value: "Hasta 1.5 kg" },
       { label: "Longitud", value: "28 cm" },
     ],
-    includes: ["Brazo"],
-    image: "/neewer-magic-arm-articulated-grip.jpg",
-    gallery: ["/neewer-magic-arm-articulated-grip.jpg"],
+    includes: ["Brazo", "Super Clamp"],
+    image: "/products/brazo-magico-standard.jpg",
+    gallery: ["/products/brazo-magico-standard.jpg"],
+    whiteBg: true,
   },
   {
     slug: "brazo-magico-neewer-med",
@@ -1029,13 +1048,14 @@ export const products: Product[] = [
     pricePerDay: 2,
     stock: 6,
     shortDescription: "Brazo articulado mediano.",
-    description: "Brazo mágico Neewer mediano, para accesorios ligeros.",
+    description: "Brazo mágico Neewer mediano con super clamp, para accesorios ligeros en jaula o estructura.",
     specs: [
       { label: "Longitud", value: "20 cm" },
     ],
-    includes: ["Brazo"],
-    image: "/neewer-magic-arm-articulated-grip.jpg",
-    gallery: ["/neewer-magic-arm-articulated-grip.jpg"],
+    includes: ["Brazo", "Super Clamp"],
+    image: "/products/brazo-magico-mediano.jpg",
+    gallery: ["/products/brazo-magico-mediano.jpg"],
+    whiteBg: true,
   },
   {
     slug: "brazo-magico-neewer-peq",

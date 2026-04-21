@@ -72,12 +72,17 @@ export function CartDrawer() {
               <ul className="divide-y divide-border">
                 {items.map((item) => (
                   <li key={item.product.slug} className="flex gap-4 py-4">
-                    <div className="relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-sm bg-secondary">
+                    <div
+                      className={cn(
+                        "relative h-20 w-20 flex-shrink-0 overflow-hidden rounded-sm",
+                        item.product.whiteBg ? "bg-[#ece8df]" : "bg-secondary",
+                      )}
+                    >
                       <Image
                         src={item.product.image || "/placeholder.svg"}
                         alt={item.product.name}
                         fill
-                        className="object-cover"
+                        className={item.product.whiteBg ? "object-contain p-1.5 mix-blend-multiply" : "object-cover"}
                         sizes="80px"
                       />
                     </div>

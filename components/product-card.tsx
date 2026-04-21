@@ -2,6 +2,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { ArrowUpRight } from "lucide-react"
 import type { Product } from "@/lib/products"
+import { cn } from "@/lib/utils"
 
 export function ProductCard({ product }: { product: Product }) {
   return (
@@ -9,13 +10,21 @@ export function ProductCard({ product }: { product: Product }) {
       href={`/productos/${product.slug}`}
       className="group relative flex flex-col overflow-hidden rounded-sm border border-border bg-card transition-colors hover:border-accent/60"
     >
-      <div className="relative aspect-[4/3] overflow-hidden bg-secondary">
+      <div
+        className={cn(
+          "relative aspect-[4/3] overflow-hidden",
+          product.whiteBg ? "bg-[#ece8df]" : "bg-secondary",
+        )}
+      >
         <Image
           src={product.image || "/placeholder.svg"}
           alt={product.name}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className={cn(
+            "transition-transform duration-500 group-hover:scale-105",
+            product.whiteBg ? "object-contain p-4 mix-blend-multiply" : "object-cover",
+          )}
         />
         <div className="absolute left-3 top-3 inline-flex items-center rounded-sm bg-background/80 backdrop-blur px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
           {product.categoryLabel}

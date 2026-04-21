@@ -148,15 +148,19 @@ export function CheckoutForm() {
           </div>
           <ul className="divide-y divide-border">
             {items.map((item) => (
-              <li key={item.product.slug} className="flex gap-3 p-5">
-                <div className="relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-sm bg-secondary">
-                  <Image
-                    src={item.product.image || "/placeholder.svg"}
-                    alt={item.product.name}
-                    fill
-                    className="object-cover"
-                    sizes="64px"
-                  />
+                  <li key={item.product.slug} className="flex gap-3 p-5">
+                    <div
+                      className={`relative h-16 w-16 flex-shrink-0 overflow-hidden rounded-sm ${
+                        item.product.whiteBg ? "bg-[#ece8df]" : "bg-secondary"
+                      }`}
+                    >
+                      <Image
+                        src={item.product.image || "/placeholder.svg"}
+                        alt={item.product.name}
+                        fill
+                        className={item.product.whiteBg ? "object-contain p-1 mix-blend-multiply" : "object-cover"}
+                        sizes="64px"
+                      />
                 </div>
                 <div className="flex-1 min-w-0">
                   <p className="truncate text-sm font-semibold">{item.product.name}</p>

@@ -69,21 +69,36 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
           <div className="grid lg:grid-cols-12 gap-10">
             {/* Gallery */}
             <div className="lg:col-span-7">
-              <div className="relative aspect-[4/3] overflow-hidden rounded-sm border border-border bg-card">
+              <div
+                className={`relative aspect-[4/3] overflow-hidden rounded-sm border border-border ${
+                  product.whiteBg ? "bg-[#ece8df]" : "bg-card"
+                }`}
+              >
                 <Image
                   src={product.image || "/placeholder.svg"}
                   alt={product.name}
                   fill
                   priority
                   sizes="(min-width: 1024px) 60vw, 100vw"
-                  className="object-cover"
+                  className={product.whiteBg ? "object-contain p-10 mix-blend-multiply" : "object-cover"}
                 />
               </div>
               {product.gallery.length > 1 && (
                 <div className="mt-3 grid grid-cols-4 gap-3">
                   {product.gallery.slice(0, 4).map((img, i) => (
-                    <div key={i} className="relative aspect-square overflow-hidden rounded-sm border border-border bg-card">
-                      <Image src={img || "/placeholder.svg"} alt="" fill sizes="200px" className="object-cover" />
+                    <div
+                      key={i}
+                      className={`relative aspect-square overflow-hidden rounded-sm border border-border ${
+                        product.whiteBg ? "bg-[#ece8df]" : "bg-card"
+                      }`}
+                    >
+                      <Image
+                        src={img || "/placeholder.svg"}
+                        alt=""
+                        fill
+                        sizes="200px"
+                        className={product.whiteBg ? "object-contain p-3 mix-blend-multiply" : "object-cover"}
+                      />
                     </div>
                   ))}
                 </div>
