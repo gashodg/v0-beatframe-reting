@@ -31,8 +31,8 @@ export function Hero() {
         </h1>
 
         <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
-          Renting de cámaras, mixers, transmisores inalámbricos y luces profesionales para streaming y realización en
-          vivo. Preparado para salir al aire en cuestión de horas.
+          Renting de cámaras, mixers de vídeo, transmisores inalámbricos, intercom y audio profesional para streaming
+          y realización en vivo. Preparado para salir al aire en cuestión de horas.
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-3">
@@ -55,11 +55,11 @@ export function Hero() {
         <dl className="mt-20 grid max-w-3xl grid-cols-2 gap-8 md:grid-cols-4 border-t border-border pt-8">
           <div>
             <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Equipos</dt>
-            <dd className="mt-2 font-mono text-2xl font-bold text-foreground">+250</dd>
+            <dd className="mt-2 font-mono text-2xl font-bold text-foreground">+100</dd>
           </div>
           <div>
-            <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Conciertos</dt>
-            <dd className="mt-2 font-mono text-2xl font-bold text-foreground">+800</dd>
+            <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Categorías</dt>
+            <dd className="mt-2 font-mono text-2xl font-bold text-foreground">12</dd>
           </div>
           <div>
             <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Base</dt>
