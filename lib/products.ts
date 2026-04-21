@@ -1102,3 +1102,7 @@ export function getFeaturedProducts(): Product[] {
 export function getCategory(slug: ProductCategory) {
   return categories.find((c) => c.slug === slug)
 }
+
+export function getProductsByCategory(category: ProductCategory): Product[] {
+  return products.filter((p) => p.category === category)
+}
