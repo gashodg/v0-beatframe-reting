@@ -59,7 +59,7 @@ export function Hero() {
           </div>
           <div>
             <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Categorías</dt>
-            <dd className="mt-2 font-mono text-2xl font-bold text-foreground">12</dd>
+            <dd className="mt-2 font-mono text-2xl font-bold text-foreground">14</dd>
           </div>
           <div>
             <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Base</dt>
