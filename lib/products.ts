@@ -634,7 +634,7 @@ export const products: Product[] = [
     gallery: ["/products/transmisor-camwave.jpg"],
   },
 
-  // ──��─������─── CONVERSORES ─────────
+  // ──��─��������─── CONVERSORES ─────────
   {
     slug: "conversor-hdmi-a-sdi",
     name: "Blackmagic Micro Converter HDMI → SDI",
@@ -1010,18 +1010,23 @@ export const products: Product[] = [
   },
   {
     slug: "tripode-base-larga",
-    name: "Trípode base larga",
-    brand: "Generic",
+    name: "Mini trípode Zeadio · base larga",
+    brand: "Zeadio",
     category: "tripodes",
     categoryLabel: "Trípodes",
     pricePerDay: 2,
     stock: 4,
-    shortDescription: "Mini-trípode con base larga.",
-    description: "Trípode con base alargada, útil para colocar cámaras sobre superficies irregulares.",
-    specs: [{ label: "Altura máxima", value: "15 cm" }],
+    shortDescription: "Mini-trípode Zeadio con patas extendidas.",
+    description:
+      "Mini trípode Zeadio de sobremesa con patas de aluminio extendidas y cabeza de bola compacta con pomo de bloqueo lateral. Base amplia para estabilidad extra sobre superficies irregulares con cámaras ligeras y móviles.",
+    specs: [
+      { label: "Altura máxima", value: "15 cm" },
+      { label: "Cabeza", value: "Bola con pomo lateral" },
+      { label: "Rosca", value: '1/4"' },
+    ],
     includes: ["Trípode"],
-    image: "/professional-video-tripod-fluid-head.jpg",
-    gallery: ["/professional-video-tripod-fluid-head.jpg"],
+    image: "/products/mini-tripode-zeadio-base-larga.jpg",
+    gallery: ["/products/mini-tripode-zeadio-base-larga.jpg"],
   },
   {
     slug: "tripode-fondo-blanco",
@@ -1173,6 +1178,26 @@ export const products: Product[] = [
   },
   {
     slug: "palo-selfie",
+    name: "Palo selfie Insta360",
+    brand: "Insta360",
+    category: "grips",
+    categoryLabel: "Grips",
+    pricePerDay: 1,
+    stock: 4,
+    shortDescription: "Invisible stick para cámara 360.",
+    description:
+      "Palo selfie Insta360 (invisible stick) con grip de goma trenzada y rosca 1/4\" superior. Diseñado para desaparecer en el reframe 360 y obtener planos aéreos desde la mano durante el directo.",
+    specs: [
+      { label: "Compatibilidad", value: "Cámaras 360 y acción" },
+      { label: "Grip", value: "Goma trenzada" },
+      { label: "Rosca", value: '1/4"' },
+    ],
+    includes: ["Palo"],
+    image: "/products/palo-selfie-insta360.jpg",
+    gallery: ["/products/palo-selfie-insta360.jpg"],
+  },
+  {
+    slug: "tripode-movil-extensible",
     name: "Trípode móvil extensible",
     brand: "Generic",
     category: "grips",
