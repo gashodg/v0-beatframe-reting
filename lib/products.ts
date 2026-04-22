@@ -634,7 +634,7 @@ export const products: Product[] = [
     gallery: ["/products/transmisor-camwave.jpg"],
   },
 
-  // ───────── CONVERSORES ─────────
+  // ─────���─── CONVERSORES ─────────
   {
     slug: "conversor-hdmi-a-sdi",
     name: "Blackmagic Micro Converter HDMI → SDI",
@@ -723,21 +723,23 @@ export const products: Product[] = [
   },
   {
     slug: "splitter-audio",
-    name: "Splitter de audio",
+    name: "Splitter AV RCA 1×4",
     brand: "Generic",
     category: "splitters",
     categoryLabel: "Splitters",
     pricePerDay: 2,
     stock: 1,
-    shortDescription: "Distribuidor de audio analógico.",
-    description: "Splitter de audio para enviar una misma señal a varios destinos sin pérdida.",
+    shortDescription: "Distribuidor audio/vídeo RCA de 4 salidas.",
+    description:
+      "Splitter AV RCA de 1 entrada a 4 salidas con vídeo compuesto (amarillo) y audio estéreo L/R (blanco/rojo). Útil para monitorado paralelo desde mesa a varios destinos o fuentes legacy que aún viajan por RCA.",
     specs: [
-      { label: "Entradas", value: "1 estéreo" },
-      { label: "Salidas", value: "4 estéreo" },
+      { label: "Entradas", value: "1 AV (CVBS + L/R)" },
+      { label: "Salidas", value: "4 AV (CVBS + L/R)" },
+      { label: "Alimentación", value: "DC 9V" },
     ],
-    includes: ["Fuente de alimentación"],
-    image: "/sdi-splitter-distributor-rack-professional.jpg",
-    gallery: ["/sdi-splitter-distributor-rack-professional.jpg"],
+    includes: ["Fuente de alimentación DC 9V"],
+    image: "/products/splitter-audio-1x4.jpg",
+    gallery: ["/products/splitter-audio-1x4.jpg"],
   },
 
   // ───────── CABLEADO ─────────
@@ -789,15 +791,17 @@ export const products: Product[] = [
     categoryLabel: "Cableado",
     pricePerDay: 1,
     stock: 2,
-    shortDescription: "HDMI 2.0 de cobre, 10 m.",
-    description: "Latiguillo HDMI de cobre de 10 metros, apto para 1080p.",
+    shortDescription: "HDMI 2.0 de cobre, 10 m, conectores dorados.",
+    description:
+      "Latiguillo HDMI de cobre de 10 metros con conectores bañados en oro y carcasa reforzada. Apto para 1080p y 4K a corta distancia.",
     specs: [
       { label: "Longitud", value: "10 m" },
       { label: "Tipo", value: "Cobre" },
+      { label: "Conectores", value: "HDMI 2.0 dorados" },
     ],
     includes: ["Cable"],
-    image: "/hdmi-cable-coiled-black-professional.jpg",
-    gallery: ["/hdmi-cable-coiled-black-professional.jpg"],
+    image: "/products/cable-hdmi-10m.jpg",
+    gallery: ["/products/cable-hdmi-10m.jpg"],
   },
   {
     slug: "cable-hdmi-5m",
@@ -807,15 +811,17 @@ export const products: Product[] = [
     categoryLabel: "Cableado",
     pricePerDay: 1,
     stock: 4,
-    shortDescription: "HDMI 2.0 de cobre, 5 m.",
-    description: "Latiguillo HDMI de cobre, distancia corta para interconexión en rack.",
+    shortDescription: "HDMI 2.0 de cobre, 5 m, conectores dorados.",
+    description:
+      "Latiguillo HDMI de cobre de 5 metros con conectores bañados en oro. Distancia cómoda para interconexión en rack entre mixer, capturadora y monitor.",
     specs: [
       { label: "Longitud", value: "5 m" },
       { label: "Tipo", value: "Cobre" },
+      { label: "Conectores", value: "HDMI 2.0 dorados" },
     ],
     includes: ["Cable"],
-    image: "/hdmi-cable-coiled-black-professional.jpg",
-    gallery: ["/hdmi-cable-coiled-black-professional.jpg"],
+    image: "/products/cable-hdmi-5m.jpg",
+    gallery: ["/products/cable-hdmi-5m.jpg"],
   },
   {
     slug: "cable-mini-hdmi-a-hdmi",
