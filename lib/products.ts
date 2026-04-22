@@ -262,8 +262,8 @@ export const products: Product[] = [
       { label: "Pantalla", value: 'Táctil 10.1"' },
     ],
     includes: ["Fuente de alimentación", "Funda de transporte"],
-    image: "/yolobox-extreme-portable-switcher.jpg",
-    gallery: ["/yolobox-extreme-portable-switcher.jpg", "/video-switcher-mixer-broadcast-buttons.jpg"],
+    image: "/products/yolobox-extreme.jpg",
+    gallery: ["/products/yolobox-extreme.jpg", "/video-switcher-mixer-broadcast-buttons.jpg"],
   },
   {
     slug: "roland-v1-hd",
@@ -867,24 +867,24 @@ export const products: Product[] = [
 
   // ───────── TRÍPODES ─────────
   {
-    slug: "tripode-heavy-duty",
-    name: "Trípode Heavy Duty",
+    slug: "tripode-base-monopie",
+    name: "Base trípode para monopie",
     brand: "Generic",
     category: "tripodes",
     categoryLabel: "Trípodes",
-    pricePerDay: 20,
-    stock: 1,
-    shortDescription: "Trípode de vídeo robusto con cabeza fluida.",
+    pricePerDay: 8,
+    stock: 2,
+    shortDescription: "Base articulada para estabilizar monopie.",
     description:
-      "Trípode heavy duty con cabeza fluida, apto para cámaras de realización con óptica cinema.",
+      "Base de tres patas articuladas en aluminio con rosca 1/4\" superior. Se acopla a monopie para estabilizar la cámara y permitir ligera movilidad lateral durante la toma en directo.",
     specs: [
-      { label: "Carga máxima", value: "10 kg" },
-      { label: "Altura máxima", value: "170 cm" },
-      { label: "Cabeza", value: "Fluida con contrabalance" },
+      { label: "Material", value: "Aluminio" },
+      { label: "Rosca", value: '1/4"' },
+      { label: "Plegable", value: "Sí" },
     ],
-    includes: ["Zapata", "Barra de pan", "Funda"],
-    image: "/professional-video-tripod-fluid-head.jpg",
-    gallery: ["/professional-video-tripod-fluid-head.jpg"],
+    includes: ["Base articulada"],
+    image: "/products/tripode-fuerte-base.jpg",
+    gallery: ["/products/tripode-fuerte-base.jpg"],
   },
   {
     slug: "tripode-cayer",
@@ -1137,18 +1137,23 @@ export const products: Product[] = [
   },
   {
     slug: "palo-selfie",
-    name: "Palo selfie extensible",
+    name: "Trípode móvil extensible",
     brand: "Generic",
     category: "grips",
     categoryLabel: "Grips",
     pricePerDay: 1,
     stock: 4,
-    shortDescription: "Palo extensible para cámara compacta.",
-    description: "Palo extensible para RX100, móviles y cámaras de acción. Útil para planos POV y backstage.",
-    specs: [{ label: "Longitud", value: "25 – 90 cm" }],
-    includes: ["Palo"],
-    image: "/neewer-magic-arm-articulated-grip.jpg",
-    gallery: ["/neewer-magic-arm-articulated-grip.jpg"],
+    shortDescription: "Trípode-palo extensible para móvil y cámaras compactas.",
+    description:
+      "Trípode extensible con patas plegables y cabeza de bola, pensado para móvil, RX100 y cámaras de acción. Perfecto para planos POV, backstage y contenido vertical durante el directo.",
+    specs: [
+      { label: "Longitud", value: "25 – 90 cm" },
+      { label: "Cabeza", value: "Bola con rosca 1/4\"" },
+      { label: "Bloqueo", value: "Anillo de giro" },
+    ],
+    includes: ["Trípode extensible"],
+    image: "/products/tripode-movil-extensible.jpg",
+    gallery: ["/products/tripode-movil-extensible.jpg"],
   },
 
   // ───────── LUCES ─────────
