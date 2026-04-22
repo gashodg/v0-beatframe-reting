@@ -634,7 +634,7 @@ export const products: Product[] = [
     gallery: ["/products/transmisor-camwave.jpg"],
   },
 
-  // ──��──���─── CONVERSORES ─────────
+  // ──��─������─── CONVERSORES ─────────
   {
     slug: "conversor-hdmi-a-sdi",
     name: "Blackmagic Micro Converter HDMI → SDI",
@@ -916,21 +916,24 @@ export const products: Product[] = [
   },
   {
     slug: "tripode-cayer",
-    name: "Trípode Cayer",
+    name: "Trípode Cayer · heavy duty",
     brand: "Cayer",
     category: "tripodes",
     categoryLabel: "Trípodes",
     pricePerDay: 16,
     stock: 1,
-    shortDescription: "Trípode profesional ligero.",
-    description: "Trípode de vídeo ligero Cayer con cabeza fluida. Buen equilibrio entre peso y capacidad.",
+    shortDescription: "Trípode de vídeo profesional con cabeza fluida.",
+    description:
+      "Trípode de vídeo Cayer de grado broadcast con cabeza fluida, barra de pan extraíble y middle spreader para mayor estabilidad. Bloqueos de leva en las secciones para montaje rápido en directo.",
     specs: [
       { label: "Carga máxima", value: "6 kg" },
       { label: "Altura máxima", value: "160 cm" },
+      { label: "Cabeza", value: "Fluida con barra de pan" },
+      { label: "Estabilizador", value: "Middle spreader" },
     ],
-    includes: ["Zapata", "Funda"],
-    image: "/products/tripode-cayer.jpg",
-    gallery: ["/products/tripode-cayer.jpg"],
+    includes: ["Zapata", "Barra de pan", "Funda"],
+    image: "/products/tripode-heavy-duty.jpg",
+    gallery: ["/products/tripode-heavy-duty.jpg"],
   },
   {
     slug: "monopie-cayer",
@@ -1118,12 +1121,17 @@ export const products: Product[] = [
     categoryLabel: "Grips",
     pricePerDay: 1,
     stock: 6,
-    shortDescription: "Brazo articulado pequeño.",
-    description: "Brazo mágico pequeño, ideal para micros, luces de acción o accesorios en jaula.",
-    specs: [{ label: "Longitud", value: "12 cm" }],
-    includes: ["Brazo"],
-    image: "/products/brazo-magico-mediano-dark.jpg",
-    gallery: ["/products/brazo-magico-mediano-dark.jpg"],
+    shortDescription: "Brazo articulado compacto con super clamp.",
+    description:
+      "Brazo mágico pequeño con super clamp y cabeza de bola única con mango de caucho estriado. Pomo rojo de bloqueo rápido. Ideal para micros de cañón, luces de bolsillo o accesorios ligeros en jaula.",
+    specs: [
+      { label: "Longitud", value: "12 cm" },
+      { label: "Bloqueo", value: "Mango estriado + pomo" },
+      { label: "Rosca", value: '1/4"' },
+    ],
+    includes: ["Brazo", "Super Clamp"],
+    image: "/products/brazo-magico-pequeno.jpg",
+    gallery: ["/products/brazo-magico-pequeno.jpg"],
   },
   {
     slug: "smallrig-super-clamp",
@@ -1232,16 +1240,18 @@ export const products: Product[] = [
     categoryLabel: "Luces",
     pricePerDay: 3,
     stock: 1,
-    shortDescription: "Panel LED bicolor para relleno.",
-    description: "Panel LED Neewer bicolor, con batería NP-F. Para relleno de cara, zona de entrevista o on-camera.",
+    shortDescription: "Panel LED bicolor con difusor integrado.",
+    description:
+      "Panel LED Neewer bicolor con difusor integrado y yoke en U para orientación precisa. Luz suave ideal para relleno de cara, zona de entrevista o como key light on-camera.",
     specs: [
       { label: "Tipo", value: "Panel LED bicolor" },
       { label: "Temperatura", value: "3200 – 5600 K" },
       { label: "Alimentación", value: "NP-F / DC" },
+      { label: "Montaje", value: "Yoke en U con 3 pomos" },
     ],
-    includes: ["Panel", "Difusor", "Batería NP-F"],
-    image: "/professional-led-studio-light-cob.jpg",
-    gallery: ["/professional-led-studio-light-cob.jpg"],
+    includes: ["Panel", "Difusor", "Yoke", "Batería NP-F"],
+    image: "/products/panel-luz-neewer.jpg",
+    gallery: ["/products/panel-luz-neewer.jpg"],
   },
   {
     slug: "luz-rgb-portatil",
