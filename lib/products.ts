@@ -634,7 +634,7 @@ export const products: Product[] = [
     gallery: ["/products/transmisor-camwave.jpg"],
   },
 
-  // ─────���─── CONVERSORES ─────────
+  // ──��──���─── CONVERSORES ─────────
   {
     slug: "conversor-hdmi-a-sdi",
     name: "Blackmagic Micro Converter HDMI → SDI",
@@ -911,8 +911,8 @@ export const products: Product[] = [
       { label: "Plegable", value: "Sí" },
     ],
     includes: ["Base articulada"],
-    image: "/products/tripode-fuerte-base.jpg",
-    gallery: ["/products/tripode-fuerte-base.jpg"],
+    image: "/products/tripode-fuerte-base-v2.jpg",
+    gallery: ["/products/tripode-fuerte-base-v2.jpg"],
   },
   {
     slug: "tripode-cayer",
@@ -1092,9 +1092,8 @@ export const products: Product[] = [
       { label: "Longitud", value: "28 cm" },
     ],
     includes: ["Brazo", "Super Clamp"],
-    image: "/products/brazo-magico-standard.jpg",
-    gallery: ["/products/brazo-magico-standard.jpg"],
-    whiteBg: true,
+    image: "/products/brazo-magico-standard-dark.jpg",
+    gallery: ["/products/brazo-magico-standard-dark.jpg"],
   },
   {
     slug: "brazo-magico-neewer-med",
@@ -1108,9 +1107,8 @@ export const products: Product[] = [
     description: "Brazo mágico Neewer mediano con super clamp, para accesorios ligeros en jaula o estructura.",
     specs: [{ label: "Longitud", value: "20 cm" }],
     includes: ["Brazo", "Super Clamp"],
-    image: "/products/brazo-magico-mediano.jpg",
-    gallery: ["/products/brazo-magico-mediano.jpg"],
-    whiteBg: true,
+    image: "/products/brazo-magico-mediano-dark.jpg",
+    gallery: ["/products/brazo-magico-mediano-dark.jpg"],
   },
   {
     slug: "brazo-magico-neewer-peq",
@@ -1124,26 +1122,28 @@ export const products: Product[] = [
     description: "Brazo mágico pequeño, ideal para micros, luces de acción o accesorios en jaula.",
     specs: [{ label: "Longitud", value: "12 cm" }],
     includes: ["Brazo"],
-    image: "/neewer-magic-arm-articulated-grip.jpg",
-    gallery: ["/neewer-magic-arm-articulated-grip.jpg"],
+    image: "/products/brazo-magico-mediano-dark.jpg",
+    gallery: ["/products/brazo-magico-mediano-dark.jpg"],
   },
   {
     slug: "smallrig-super-clamp",
-    name: "Smallrig Super Clamp",
-    brand: "Smallrig",
+    name: "SmallRig Super Clamp + ballhead",
+    brand: "SmallRig",
     category: "grips",
     categoryLabel: "Grips",
     pricePerDay: 2,
     stock: 2,
-    shortDescription: "Pinza universal para tubos y superficies.",
-    description: "Super Clamp Smallrig para fijar accesorios a tubos de 15-55 mm o estructura de escenario.",
+    shortDescription: "Super Clamp con cabeza doble de bola.",
+    description:
+      "Super Clamp SmallRig con cabeza articulada de doble bola y rosca 1/4\" superior. Para fijar monitores, luces o micros a tubos de 15-55 mm y estructura de escenario con posicionamiento preciso.",
     specs: [
       { label: "Apertura", value: "15 – 55 mm" },
       { label: "Rosca", value: '1/4" y 3/8"' },
+      { label: "Cabeza", value: "Doble ballhead" },
     ],
-    includes: ["Super Clamp"],
-    image: "/neewer-magic-arm-articulated-grip.jpg",
-    gallery: ["/neewer-magic-arm-articulated-grip.jpg"],
+    includes: ["Super Clamp", "Ballhead"],
+    image: "/products/brazo-magico-smallrig.jpg",
+    gallery: ["/products/brazo-magico-smallrig.jpg"],
   },
   {
     slug: "slider-motorizado",
