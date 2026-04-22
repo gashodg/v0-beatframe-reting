@@ -681,22 +681,45 @@ export const products: Product[] = [
   // ───────── SPLITTERS ─────────
   {
     slug: "splitter-video-hdmi",
-    name: "Splitter de vídeo HDMI",
+    name: "Splitter HDMI 1×4",
+    brand: "eSYNiC",
+    category: "splitters",
+    categoryLabel: "Splitters",
+    pricePerDay: 2,
+    stock: 2,
+    shortDescription: "Distribuidor HDMI 1×4 con indicadores LED.",
+    description:
+      "Splitter HDMI 1×4 eSYNiC para distribuir una misma señal a cuatro destinos (monitorado, streaming, proyección, captura). LEDs independientes por salida para diagnóstico rápido en directo.",
+    specs: [
+      { label: "Entradas", value: "1x HDMI" },
+      { label: "Salidas", value: "4x HDMI" },
+      { label: "Resolución", value: "1080p 60" },
+      { label: "Indicadores", value: "LED por salida" },
+    ],
+    includes: ["Fuente de alimentación"],
+    image: "/products/splitter-hdmi-1x4.jpg",
+    gallery: ["/products/splitter-hdmi-1x4.jpg"],
+  },
+  {
+    slug: "splitter-hdmi-1x2-4k",
+    name: "Splitter HDMI 1×2 4K",
     brand: "Generic",
     category: "splitters",
     categoryLabel: "Splitters",
     pricePerDay: 2,
     stock: 2,
-    shortDescription: "Distribuidor HDMI 1×4.",
-    description: "Splitter HDMI 1×4 para distribuir una misma señal a varios destinos (monitorado, streaming, proyección).",
+    shortDescription: "Distribuidor HDMI 1×2 compatible 4K y 3D.",
+    description:
+      "Splitter HDMI compacto 1×2 con soporte 4K UHD y 3D. Ideal para doblar la señal hacia monitor de escena y realización sin latencia apreciable.",
     specs: [
       { label: "Entradas", value: "1x HDMI" },
-      { label: "Salidas", value: "4x HDMI" },
-      { label: "Resolución", value: "1080p 60" },
+      { label: "Salidas", value: "2x HDMI" },
+      { label: "Resolución", value: "4K UHD / 3D" },
+      { label: "Alimentación", value: "DC 5V" },
     ],
-    includes: ["Fuente de alimentación"],
-    image: "/hdmi-splitter-8-port-professional-rack.jpg",
-    gallery: ["/hdmi-splitter-8-port-professional-rack.jpg"],
+    includes: ["Fuente de alimentación DC 5V"],
+    image: "/products/splitter-hdmi-1x2.jpg",
+    gallery: ["/products/splitter-hdmi-1x2.jpg"],
   },
   {
     slug: "splitter-audio",
@@ -755,9 +778,8 @@ export const products: Product[] = [
       { label: "Ancho de banda", value: "3G-SDI" },
     ],
     includes: ["Cable"],
-    image: "/products/cable-sdi-30m.jpg",
-    gallery: ["/products/cable-sdi-30m.jpg"],
-    whiteBg: true,
+    image: "/products/cable-sdi-30m-dark.jpg",
+    gallery: ["/products/cable-sdi-30m-dark.jpg"],
   },
   {
     slug: "cable-hdmi-10m",
@@ -865,7 +887,7 @@ export const products: Product[] = [
     gallery: ["/coiled-bnc-sdi-cable-professional.jpg"],
   },
 
-  // ───────── TRÍPODES ─────────
+  // ���──────── TRÍPODES ─────────
   {
     slug: "tripode-base-monopie",
     name: "Base trípode para monopie",
