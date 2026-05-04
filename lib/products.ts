@@ -13,6 +13,7 @@ export type ProductCategory =
   | "grips"
   | "luces"
   | "baterias"
+  | "storage"
 
 export type Product = {
   slug: string
@@ -106,6 +107,11 @@ export const categories: { slug: ProductCategory; label: string; description: st
     slug: "baterias",
     label: "Baterías",
     description: "Baterías NP-F, power banks y cargadores dobles.",
+  },
+  {
+    slug: "storage",
+    label: "Storage",
+    description: "Discos SSD y almacenamiento para grabadores y realización.",
   },
 ]
 
@@ -634,7 +640,7 @@ export const products: Product[] = [
     gallery: ["/products/transmisor-camwave.jpg"],
   },
 
-  // ──��─��������─── CONVERSORES ─────────
+  // ──��─����������─── CONVERSORES ─────────
   {
     slug: "conversor-hdmi-a-sdi",
     name: "Blackmagic Micro Converter HDMI → SDI",
@@ -1346,8 +1352,8 @@ export const products: Product[] = [
     slug: "ssd-atomos-500gb",
     name: "Disco SSD AtomX 500 GB",
     brand: "Angelbird / Atomos",
-    category: "baterias",
-    categoryLabel: "Baterías",
+    category: "storage",
+    categoryLabel: "Storage",
     pricePerDay: 2,
     stock: 3,
     shortDescription: "SSD AtomX 500 GB para grabadores Atomos.",
@@ -1366,8 +1372,8 @@ export const products: Product[] = [
     slug: "ssd-atomos-1tb",
     name: "Disco SSD Atomos Master Caddy 1 TB",
     brand: "Atomos",
-    category: "baterias",
-    categoryLabel: "Baterías",
+    category: "storage",
+    categoryLabel: "Storage",
     pricePerDay: 5,
     stock: 1,
     shortDescription: "SSD Atomos Master Caddy 1 TB para grabación prolongada.",
