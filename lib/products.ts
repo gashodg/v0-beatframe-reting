@@ -498,8 +498,8 @@ export const products: Product[] = [
       { label: "Impedancia", value: "150 Ω" },
     ],
     includes: ["Micrófono", "Windscreen"],
-    image: "/professional-broadcast-microphone-xlr.jpg",
-    gallery: ["/professional-broadcast-microphone-xlr.jpg"],
+    image: "/products/shure-sm7b.jpg",
+    gallery: ["/products/shure-sm7b.jpg"],
   },
   {
     slug: "cable-xlr-5m",
@@ -518,8 +518,8 @@ export const products: Product[] = [
       { label: "Tipo", value: "Balanceado" },
     ],
     includes: ["Cable"],
-    image: "/professional-xlr-cable-coiled.jpg",
-    gallery: ["/professional-xlr-cable-coiled.jpg"],
+    image: "/products/cable-xlr-5m.jpg",
+    gallery: ["/products/cable-xlr-5m.jpg"],
   },
   {
     slug: "cable-jack-jack",
@@ -538,8 +538,8 @@ export const products: Product[] = [
       { label: "Tipo", value: "Balanceado / Instrumento" },
     ],
     includes: ["Cable"],
-    image: "/professional-audio-cable-trs.jpg",
-    gallery: ["/professional-audio-cable-trs.jpg"],
+    image: "/products/cable-jack-jack.jpg",
+    gallery: ["/products/cable-jack-jack.jpg"],
   },
   {
     slug: "pie-micro-suelo",
@@ -558,8 +558,8 @@ export const products: Product[] = [
       { label: "Rosca", value: '5/8"' },
     ],
     includes: ["Pie", "Brazo jirafa"],
-    image: "/professional-mic-stand-boom.jpg",
-    gallery: ["/professional-mic-stand-boom.jpg"],
+    image: "/products/pie-micro-suelo.jpg",
+    gallery: ["/products/pie-micro-suelo.jpg"],
   },
   {
     slug: "pie-micro-mesa",
@@ -578,8 +578,8 @@ export const products: Product[] = [
       { label: "Rosca", value: '5/8" con adaptador 3/8"' },
     ],
     includes: ["Pie de mesa"],
-    image: "/professional-desk-mic-stand.jpg",
-    gallery: ["/professional-desk-mic-stand.jpg"],
+    image: "/products/pie-micro-mesa.jpg",
+    gallery: ["/products/pie-micro-mesa.jpg"],
   },
 
   // ───────── CAPTURADORAS ─────────
