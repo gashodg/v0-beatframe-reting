@@ -66,7 +66,7 @@ export const categories: { slug: ProductCategory; label: string; description: st
   },
   {
     slug: "capturadoras",
-    label: "Capturadoras",
+    label: "Capturadoras de vídeo",
     description: "Captura USB/Thunderbolt para streaming y producción en directo.",
   },
   {
@@ -528,7 +528,7 @@ export const products: Product[] = [
     name: "AVIO 4K Capture Card",
     brand: "Epiphan",
     category: "capturadoras",
-    categoryLabel: "Capturadoras",
+    categoryLabel: "Capturadoras de vídeo",
     pricePerDay: 30,
     stock: 1,
     shortDescription: "Tarjeta de captura 4K HDMI → USB 3.0.",
@@ -548,7 +548,7 @@ export const products: Product[] = [
     name: "Capturadora USB HDMI",
     brand: "Generic",
     category: "capturadoras",
-    categoryLabel: "Capturadoras",
+    categoryLabel: "Capturadoras de vídeo",
     pricePerDay: 1,
     stock: 3,
     shortDescription: "Capturadora USB HDMI 1080p.",
