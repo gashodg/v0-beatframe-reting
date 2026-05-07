@@ -14,6 +14,7 @@ export type ProductCategory =
   | "luces"
   | "baterias"
   | "storage"
+  | "grabadoras"
 
 export type Product = {
   slug: string
@@ -66,7 +67,7 @@ export const categories: { slug: ProductCategory; label: string; description: st
   {
     slug: "capturadoras",
     label: "Capturadoras",
-    description: "Captura USB/Thunderbolt y grabadores Atomos para streaming.",
+    description: "Captura USB/Thunderbolt para streaming y producción en directo.",
   },
   {
     slug: "transmisores",
@@ -112,6 +113,11 @@ export const categories: { slug: ProductCategory; label: string; description: st
     slug: "storage",
     label: "Storage",
     description: "Discos SSD y almacenamiento para grabadores y realización.",
+  },
+  {
+    slug: "grabadoras",
+    label: "Grabadoras de vídeo",
+    description: "Grabadores externos Atomos para ProRes y DNxHR sin compresión.",
   },
 ]
 
@@ -481,8 +487,8 @@ export const products: Product[] = [
     slug: "atomos-ninja-4k",
     name: "Atomos Ninja 4K",
     brand: "Atomos",
-    category: "capturadoras",
-    categoryLabel: "Capturadoras",
+    category: "grabadoras",
+    categoryLabel: "Grabadoras de vídeo",
     pricePerDay: 30,
     stock: 1,
     featured: true,
@@ -502,8 +508,8 @@ export const products: Product[] = [
     slug: "atomos-ninja-2",
     name: "Atomos Ninja 2",
     brand: "Atomos",
-    category: "capturadoras",
-    categoryLabel: "Capturadoras",
+    category: "grabadoras",
+    categoryLabel: "Grabadoras de vídeo",
     pricePerDay: 25,
     stock: 1,
     shortDescription: "Grabador externo Full HD ProRes.",
