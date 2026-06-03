@@ -1,3 +1,5 @@
+import Link from "next/link"
+
 export default function AdminLoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
@@ -16,40 +18,66 @@ export default function AdminLoginPage() {
             Sistema de administración para BeatFrame - Renting Audiovisual
           </p>
           
-          <div className="space-y-4 text-sm">
-            <div className="p-3 bg-secondary rounded">
+          <div className="space-y-3">
+            <Link 
+              href="/admin"
+              className="block p-4 bg-secondary hover:bg-secondary/80 rounded border border-transparent hover:border-accent transition-all"
+            >
               <p className="font-medium text-foreground">Dashboard Admin</p>
               <p className="text-muted-foreground text-xs mt-1">
                 Ver estadísticas y gestionar alquileres
               </p>
-            </div>
+            </Link>
 
-            <div className="p-3 bg-secondary rounded">
+            <Link 
+              href="/admin/products"
+              className="block p-4 bg-secondary hover:bg-secondary/80 rounded border border-transparent hover:border-accent transition-all"
+            >
               <p className="font-medium text-foreground">Gestión de Productos</p>
               <p className="text-muted-foreground text-xs mt-1">
                 Editar precios, stock, descripciones y fotos
               </p>
-            </div>
+            </Link>
 
-            <div className="p-3 bg-secondary rounded">
+            <Link 
+              href="/admin/rentals"
+              className="block p-4 bg-secondary hover:bg-secondary/80 rounded border border-transparent hover:border-accent transition-all"
+            >
               <p className="font-medium text-foreground">Control de Alquileres</p>
               <p className="text-muted-foreground text-xs mt-1">
                 Ver estado de reservas y procesar documentos
               </p>
-            </div>
-          </div>
+            </Link>
 
-          <div className="mt-6 pt-6 border-t border-border">
-            <p className="text-xs text-muted-foreground mb-4">
-              El sistema de admin está en desarrollo. Las funcionalidades principales incluyen:
-            </p>
-            <ul className="text-xs text-muted-foreground space-y-2">
-              <li>✓ Gestión de catálogo</li>
-              <li>✓ Control de alquileres y estados</li>
-              <li>✓ Gestión de documentos y firmas</li>
-              <li>✓ Historial de emails</li>
-              <li>✓ Estadísticas y reportes</li>
-            </ul>
+            <Link 
+              href="/admin/documents"
+              className="block p-4 bg-secondary hover:bg-secondary/80 rounded border border-transparent hover:border-accent transition-all"
+            >
+              <p className="font-medium text-foreground">Documentos</p>
+              <p className="text-muted-foreground text-xs mt-1">
+                Ver DNI, contratos y firmas de clientes
+              </p>
+            </Link>
+
+            <Link 
+              href="/admin/emails"
+              className="block p-4 bg-secondary hover:bg-secondary/80 rounded border border-transparent hover:border-accent transition-all"
+            >
+              <p className="font-medium text-foreground">Historial de Emails</p>
+              <p className="text-muted-foreground text-xs mt-1">
+                Confirmaciones y notificaciones enviadas
+              </p>
+            </Link>
+
+            <Link 
+              href="/admin/stats"
+              className="block p-4 bg-secondary hover:bg-secondary/80 rounded border border-transparent hover:border-accent transition-all"
+            >
+              <p className="font-medium text-foreground">Estadísticas</p>
+              <p className="text-muted-foreground text-xs mt-1">
+                Ingresos y métricas del negocio
+              </p>
+            </Link>
           </div>
         </div>
       </div>
