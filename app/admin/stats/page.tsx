@@ -1,5 +1,6 @@
 import { products, categories } from '@/lib/products'
 import Link from 'next/link'
+import { AdminNav } from '@/components/admin-nav'
 
 export default function StatsPage() {
   const totalProducts = products.length
@@ -24,15 +25,11 @@ export default function StatsPage() {
 
   return (
     <div className="min-h-screen bg-background">
+      <AdminNav />
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground">Estadisticas</h1>
-            <p className="text-muted-foreground mt-1">Metricas y analisis del catalogo</p>
-          </div>
-          <Link href="/admin/login" className="text-sm text-muted-foreground hover:text-foreground">
-            Volver al menu
-          </Link>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground">Estadisticas</h1>
+          <p className="text-muted-foreground mt-1">Metricas y analisis del catalogo</p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">

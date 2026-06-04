@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/", label: "Inicio" },
   { href: "/productos", label: "Catálogo" },
   { href: "/contacto", label: "Contacto" },
+  { href: "/admin/login", label: "Area Empleados" },
 ]
 
 export function Navbar() {
