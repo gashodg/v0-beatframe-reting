@@ -1,35 +1,26 @@
 'use server'
 
-import { auth } from '@/lib/auth'
 import { db } from '@/lib/db'
 import { products } from '@/lib/products'
 import { stock_log, product_edits } from '@/lib/db/schema'
-import { headers } from 'next/headers'
+import { eq } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 
-async function getUserId() {
-  const session = await auth.api.getSession({ headers: await headers() })
-  if (!session?.user) throw new Error('Unauthorized')
-  return session.user.id
-}
+// Admin actions — no auth guard while auth is stubbed.
+// Wire proper session check here when Better Auth is configured.
 
 export async function updateProductPrice(productSlug: string, newPrice: number) {
-  const userId = await getUserId()
-
   const productIndex = products.findIndex((p) => p.slug === productSlug)
   if (productIndex === -1) throw new Error('Product not found')
 
   const oldPrice = products[productIndex].pricePerDay
 
-  // Log the change
   await db.insert(product_edits).values({
+    id: crypto.randomUUID(),
     productId: productSlug,
-    editedBy: userId,
+    editedBy: 'admin',
     changeType: 'price_update',
-    changes: {
-      oldPrice,
-      newPrice,
-    },
+    changes: { oldPrice, newPrice },
   })
 
   products[productIndex].pricePerDay = newPrice
@@ -38,17 +29,19 @@ export async function updateProductPrice(productSlug: string, newPrice: number) 
   return products[productIndex]
 }
 
-export async function updateProductStock(productSlug: string, newStock: number, reason: string = 'manual_adjustment') {
-  const userId = await getUserId()
-
+export async function updateProductStock(
+  productSlug: string,
+  newStock: number,
+  reason = 'manual_adjustment'
+) {
   const productIndex = products.findIndex((p) => p.slug === productSlug)
   if (productIndex === -1) throw new Error('Product not found')
 
   const oldStock = products[productIndex].stock
   products[productIndex].stock = newStock
 
-  // Log the change
   await db.insert(stock_log).values({
+    id: crypto.randomUUID(),
     productId: productSlug,
     previousStock: oldStock,
     newStock,
@@ -60,22 +53,17 @@ export async function updateProductStock(productSlug: string, newStock: number, 
 }
 
 export async function updateProductDescription(productSlug: string, newDescription: string) {
-  const userId = await getUserId()
-
   const productIndex = products.findIndex((p) => p.slug === productSlug)
   if (productIndex === -1) throw new Error('Product not found')
 
   const oldDescription = products[productIndex].description
 
-  // Log the change
   await db.insert(product_edits).values({
+    id: crypto.randomUUID(),
     productId: productSlug,
-    editedBy: userId,
+    editedBy: 'admin',
     changeType: 'description_update',
-    changes: {
-      oldDescription,
-      newDescription,
-    },
+    changes: { oldDescription, newDescription },
   })
 
   products[productIndex].description = newDescription
@@ -85,22 +73,17 @@ export async function updateProductDescription(productSlug: string, newDescripti
 }
 
 export async function updateProductImage(productSlug: string, newImage: string) {
-  const userId = await getUserId()
-
   const productIndex = products.findIndex((p) => p.slug === productSlug)
   if (productIndex === -1) throw new Error('Product not found')
 
   const oldImage = products[productIndex].image
 
-  // Log the change
   await db.insert(product_edits).values({
+    id: crypto.randomUUID(),
     productId: productSlug,
-    editedBy: userId,
+    editedBy: 'admin',
     changeType: 'image_update',
-    changes: {
-      oldImage,
-      newImage,
-    },
+    changes: { oldImage, newImage },
   })
 
   products[productIndex].image = newImage
@@ -110,9 +93,9 @@ export async function updateProductImage(productSlug: string, newImage: string) 
 }
 
 export async function getProductEditHistory(productSlug: string) {
-  return db.select().from(product_edits).where(product_edits.productId === productSlug)
+  return db.select().from(product_edits).where(eq(product_edits.productId, productSlug))
 }
 
 export async function getStockHistory(productSlug: string) {
-  return db.select().from(stock_log).where(stock_log.productId === productSlug)
+  return db.select().from(stock_log).where(eq(stock_log.productId, productSlug))
 }

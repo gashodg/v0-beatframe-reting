@@ -17,11 +17,11 @@ export function Footer() {
             <div className="mt-6 space-y-2 text-sm text-muted-foreground">
               <p className="flex items-center gap-2">
                 <MapPin className="h-3.5 w-3.5" />
-                Carrer de Pallars 193, 08005 Barcelona
+                Joan de Àustria 68, 08005 Barcelona
               </p>
               <p className="flex items-center gap-2">
                 <Phone className="h-3.5 w-3.5" />
-                +34 931 000 000
+                +34 604 126 180
               </p>
               <p className="flex items-center gap-2">
                 <Mail className="h-3.5 w-3.5" />
@@ -75,7 +75,7 @@ export function Footer() {
 
         <div className="mt-16 flex flex-col gap-4 border-t border-border pt-8 md:flex-row md:items-center md:justify-between">
           <p className="font-mono text-xs text-muted-foreground">
-            © {new Date().getFullYear()} BeatFrame Audiovisual Studio — Barcelona
+            © {new Date().getFullYear()} BeatFrame Audiovisual Studio · Barcelona
           </p>
           <div className="flex items-center gap-4 text-muted-foreground">
             <a href="https://instagram.com" aria-label="Instagram" className="hover:text-foreground transition-colors">

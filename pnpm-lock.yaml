@@ -115,7 +115,7 @@ importers:
         version: 4.1.0
       drizzle-orm:
         specifier: ^0.45.2
-        version: 0.45.2(kysely@0.29.2)(pg@8.21.0)
+        version: 0.45.2(@types/pg@8.20.0)(kysely@0.29.2)(pg@8.21.0)
       embla-carousel-react:
         specifier: 8.6.0
         version: 8.6.0(react@19.2.5)
@@ -180,6 +180,9 @@ importers:
       '@types/node':
         specifier: ^22
         version: 22.19.17
+      '@types/pg':
+        specifier: ^8.20.0
+        version: 8.20.0
       '@types/react':
         specifier: ^19
         version: 19.2.14
@@ -1242,6 +1245,9 @@ packages:
 
   '@types/node@22.19.17':
     resolution: {integrity: sha512-wGdMcf+vPYM6jikpS/qhg6WiqSV/OhG+jeeHT/KlVqxYfD40iYJf9/AE1uQxVWFvU7MipKRkRv8NSHiCGgPr8Q==}
+
+  '@types/pg@8.20.0':
+    resolution: {integrity: sha512-bEPFOaMAHTEP1EzpvHTbmwR8UsFyHSKsRisLIHVMXnpNefSbGA1bD6CVy+qKjGSqmZqNqBDV2azOBo8TgkcVow==}
 
   '@types/react-dom@19.2.3':
     resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
@@ -2960,6 +2966,12 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
+  '@types/pg@8.20.0':
+    dependencies:
+      '@types/node': 22.19.17
+      pg-protocol: 1.14.0
+      pg-types: 2.2.0
+
   '@types/react-dom@19.2.3(@types/react@19.2.14)':
     dependencies:
       '@types/react': 19.2.14
@@ -3085,8 +3097,9 @@ snapshots:
       '@babel/runtime': 7.29.2
       csstype: 3.2.3
 
-  drizzle-orm@0.45.2(kysely@0.29.2)(pg@8.21.0):
+  drizzle-orm@0.45.2(@types/pg@8.20.0)(kysely@0.29.2)(pg@8.21.0):
     optionalDependencies:
+      '@types/pg': 8.20.0
       kysely: 0.29.2
       pg: 8.21.0
 

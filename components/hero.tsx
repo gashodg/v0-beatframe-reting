@@ -22,12 +22,12 @@ export function Hero() {
         <div className="flex items-center gap-2 mb-8">
           <span className="inline-flex h-2 w-2 rounded-full bg-accent animate-pulse" aria-hidden="true" />
           <span className="font-mono text-xs uppercase tracking-[0.25em] text-muted-foreground">
-            Barcelona — En directo
+            Barcelona · En directo
           </span>
         </div>
 
-        <h1 className="max-w-4xl font-sans text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-balance">
-          El equipo audiovisual para tu <span className="text-chrome">directo musical</span>.
+        <h1 className="max-w-4xl font-display text-5xl md:text-7xl lg:text-8xl font-bold leading-[0.95] tracking-tight text-balance">
+          El equipo audiovisual para tu <span className="text-silver">directo musical</span>.
         </h1>
 
         <p className="mt-8 max-w-xl text-lg leading-relaxed text-muted-foreground text-pretty">
@@ -68,7 +68,7 @@ export function Hero() {
           <div>
             <dt className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Entrega</dt>
             <dd className="mt-2 flex items-center gap-1 font-mono text-2xl font-bold text-foreground">
-              <Zap className="h-5 w-5 text-accent" />
+              <Zap className="h-5 w-5 text-accent" aria-hidden="true" />
               24h
             </dd>
           </div>

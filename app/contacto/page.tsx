@@ -28,7 +28,7 @@ export default function ContactPage() {
             {/* Info */}
             <div className="lg:col-span-4 space-y-8">
               <InfoBlock icon={MapPin} title="Dirección">
-                Carrer de Pallars 193
+                Joan de Àustria 68
                 <br />
                 08005 Barcelona
                 <br />
@@ -36,7 +36,7 @@ export default function ContactPage() {
               </InfoBlock>
               <InfoBlock icon={Phone} title="Teléfono">
                 <a href="tel:+34931000000" className="hover:text-accent transition-colors">
-                  +34 931 000 000
+                  +34 604 126 180
                 </a>
               </InfoBlock>
               <InfoBlock icon={Mail} title="Email">

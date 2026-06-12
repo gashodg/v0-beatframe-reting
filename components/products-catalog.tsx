@@ -30,7 +30,7 @@ export function ProductsCatalog() {
 
   return (
     <div>
-      <div className="mb-8 overflow-x-auto">
+      <div className="mb-8 overflow-x-auto no-scrollbar">
         <div className="flex items-center gap-2 pb-2">
           <FilterChip active={!activeCat} onClick={() => setCategory(null)}>
             Todo ({products.length})

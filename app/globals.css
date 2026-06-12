@@ -5,43 +5,46 @@
 
 :root {
   /* BeatFrame — minimalista, oscuro con acentos metálicos */
-  --background: oklch(0.14 0 0); /* near-black */
-  --foreground: oklch(0.96 0 0); /* warm white */
-  --card: oklch(0.17 0 0);
-  --card-foreground: oklch(0.96 0 0);
-  --popover: oklch(0.17 0 0);
-  --popover-foreground: oklch(0.96 0 0);
-  --primary: oklch(0.96 0 0);
-  --primary-foreground: oklch(0.14 0 0);
-  --secondary: oklch(0.22 0 0);
-  --secondary-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.22 0 0);
+  /* Neutrals tinted toward hue 80 (warm amber direction) per design law */
+  --background: oklch(0.14 0.006 80);
+  --foreground: oklch(0.96 0.006 80);
+  --card: oklch(0.17 0.005 80);
+  --card-foreground: oklch(0.96 0.006 80);
+  --popover: oklch(0.17 0.005 80);
+  --popover-foreground: oklch(0.96 0.006 80);
+  --primary: oklch(0.96 0.006 80);
+  --primary-foreground: oklch(0.14 0.006 80);
+  --secondary: oklch(0.22 0.004 80);
+  --secondary-foreground: oklch(0.96 0.006 80);
+  --muted: oklch(0.22 0.004 80);
   --muted-foreground: oklch(0.68 0.005 80);
   --accent: oklch(0.78 0.01 80); /* silver/chrome warm */
-  --accent-foreground: oklch(0.14 0 0);
+  --accent-foreground: oklch(0.14 0.006 80);
   --destructive: oklch(0.6 0.22 25);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.26 0 0);
-  --input: oklch(0.26 0 0);
+  --border: oklch(0.26 0.003 80);
+  --input: oklch(0.26 0.003 80);
   --ring: oklch(0.78 0.01 80);
   --chart-1: oklch(0.78 0.01 80);
   --chart-2: oklch(0.6 0.01 80);
   --chart-3: oklch(0.45 0.01 80);
-  --chart-4: oklch(0.3 0 0);
-  --chart-5: oklch(0.96 0 0);
+  --chart-4: oklch(0.3 0.003 80);
+  --chart-5: oklch(0.96 0.006 80);
   --radius: 0.25rem;
-  --sidebar: oklch(0.17 0 0);
-  --sidebar-foreground: oklch(0.96 0 0);
+  --sidebar: oklch(0.17 0.005 80);
+  --sidebar-foreground: oklch(0.96 0.006 80);
   --sidebar-primary: oklch(0.78 0.01 80);
-  --sidebar-primary-foreground: oklch(0.14 0 0);
-  --sidebar-accent: oklch(0.22 0 0);
-  --sidebar-accent-foreground: oklch(0.96 0 0);
-  --sidebar-border: oklch(0.26 0 0);
+  --sidebar-primary-foreground: oklch(0.14 0.006 80);
+  --sidebar-accent: oklch(0.22 0.004 80);
+  --sidebar-accent-foreground: oklch(0.96 0.006 80);
+  --sidebar-border: oklch(0.26 0.003 80);
   --sidebar-ring: oklch(0.78 0.01 80);
+  --product-bg-warm: oklch(0.93 0.01 85);
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), 'Inter Fallback', system-ui, sans-serif;
+  --font-sans: var(--font-barlow), system-ui, sans-serif;
+  --font-display: var(--font-barlow-semi-condensed), system-ui, sans-serif;
   --font-mono: var(--font-jetbrains-mono), 'JetBrains Mono Fallback', monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -91,29 +94,28 @@
   }
   ::selection {
     background: oklch(0.78 0.01 80 / 0.3);
-    color: oklch(0.96 0 0);
+    color: oklch(0.96 0.006 80);
   }
 }
 
-/* Chrome / metallic text effect for hero logo accents */
-.text-chrome {
-  background: linear-gradient(
-    180deg,
-    oklch(0.96 0 0) 0%,
-    oklch(0.78 0.01 80) 45%,
-    oklch(0.55 0.005 80) 55%,
-    oklch(0.88 0.008 80) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Silver accent — solid hue from the brand palette, no gradient */
+.text-silver {
+  color: oklch(0.78 0.01 80);
+}
+
+.no-scrollbar {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }
 
 .grain::before {
   content: '';
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height%3D'100%25' filter='url(%23n)' opacity='0.4'/%3E%3C/svg%3E");
   opacity: 0.04;
   pointer-events: none;
   mix-blend-mode: overlay;

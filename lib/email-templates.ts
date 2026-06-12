@@ -1,170 +1,177 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+const FROM = 'BeatFrame <noreply@beatframe.rentals>'
 
-export async function sendConfirmationEmail(email: string, rentalId: string, productName: string, startDate: string, endDate: string) {
-  try {
-    const result = await resend.emails.send({
-      from: 'noreply@beatframe.rentals',
-      to: email,
-      subject: `Confirmación de alquiler: ${productName}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333;">Confirmación de tu alquiler</h2>
-          <p>Hola,</p>
-          <p>Tu alquiler ha sido confirmado exitosamente.</p>
-          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Producto:</strong> ${productName}</p>
-            <p><strong>Fecha de inicio:</strong> ${startDate}</p>
-            <p><strong>Fecha de fin:</strong> ${endDate}</p>
-            <p><strong>ID del alquiler:</strong> ${rentalId}</p>
-          </div>
-          <p>Por favor, completa los siguientes pasos:</p>
-          <ol>
-            <li>Sube tu documento de identidad (DNI/Pasaporte)</li>
-            <li>Revisa y firma el acuerdo de alquiler</li>
-            <li>Realiza el pago si aún no lo has hecho</li>
-          </ol>
-          <p>
-            <a href="${process.env.BETTER_AUTH_URL || 'https://beatframe.rentals'}/mis-alquileres/${rentalId}" 
-               style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              Ver detalles del alquiler
-            </a>
-          </p>
-          <p style="color: #666; font-size: 12px; margin-top: 20px;">
-            Si no realizaste este alquiler, por favor ignora este email.
-          </p>
-        </div>
-      `,
-    })
-    return result
-  } catch (error) {
-    console.error('Error sending confirmation email:', error)
-    throw error
-  }
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY)
 }
 
-export async function sendPaymentConfirmedEmail(email: string, rentalId: string, productName: string, totalPrice: number) {
-  try {
-    const result = await resend.emails.send({
-      from: 'noreply@beatframe.rentals',
-      to: email,
-      subject: `Pago confirmado: ${productName}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #28a745;">Pago confirmado ✓</h2>
-          <p>Hola,</p>
-          <p>Tu pago ha sido procesado exitosamente.</p>
-          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Producto:</strong> ${productName}</p>
-            <p><strong>Monto:</strong> €${totalPrice.toFixed(2)}</p>
-            <p><strong>ID del alquiler:</strong> ${rentalId}</p>
-          </div>
-          <p>Tu alquiler está confirmado. Por favor, completa la carga de documentos y la firma del acuerdo.</p>
-          <p>
-            <a href="${process.env.BETTER_AUTH_URL || 'https://beatframe.rentals'}/mis-alquileres/${rentalId}" 
-               style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              Continuar con el proceso
-            </a>
-          </p>
-        </div>
-      `,
-    })
-    return result
-  } catch (error) {
-    console.error('Error sending payment confirmation email:', error)
-    throw error
-  }
+// ─── Order confirmation (multi-item) ────────────────────────────────────────
+
+export type OrderItem = {
+  name: string
+  quantity: number
+  days: number
+  total: number
 }
 
-export async function sendReminderEmail(email: string, rentalId: string, productName: string, missingDocs: string[]) {
-  try {
-    const result = await resend.emails.send({
-      from: 'noreply@beatframe.rentals',
-      to: email,
-      subject: `Recordatorio: Completa tu alquiler`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #ff9800;">Recordatorio: Pasos pendientes</h2>
-          <p>Hola,</p>
-          <p>Te recordamos que faltan pasos por completar en tu alquiler de <strong>${productName}</strong>.</p>
-          <p>Documentos pendientes:</p>
-          <ul>
-            ${missingDocs.map(doc => `<li>${doc}</li>`).join('')}
-          </ul>
-          <p>Por favor, completa estos pasos cuanto antes para confirmar tu alquiler.</p>
-          <p>
-            <a href="${process.env.BETTER_AUTH_URL || 'https://beatframe.rentals'}/mis-alquileres/${rentalId}" 
-               style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              Completar proceso
-            </a>
-          </p>
-        </div>
-      `,
-    })
-    return result
-  } catch (error) {
-    console.error('Error sending reminder email:', error)
-    throw error
-  }
+export async function sendOrderConfirmationEmail({
+  to,
+  customerName,
+  refCode,
+  pickupDate,
+  returnDate,
+  items,
+  totalWithIVA,
+}: {
+  to: string
+  customerName: string
+  refCode: string
+  pickupDate: string
+  returnDate: string
+  items: OrderItem[]
+  totalWithIVA: number
+}) {
+  const itemRows = items
+    .map(
+      (i) =>
+        `<tr>
+          <td style="padding:10px 0;border-bottom:1px solid #222;">${i.name}</td>
+          <td style="padding:10px 0;border-bottom:1px solid #222;text-align:center;white-space:nowrap;">${i.quantity}× · ${i.days}d</td>
+          <td style="padding:10px 0;border-bottom:1px solid #222;text-align:right;font-family:monospace;">${i.total.toFixed(2)}€</td>
+        </tr>`
+    )
+    .join('')
+
+  const html = `
+    <div style="background:#0a0a0a;color:#e5e5e5;font-family:'Helvetica Neue',Arial,sans-serif;max-width:600px;margin:0 auto;padding:40px 32px;">
+      <p style="font-family:monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#666;margin:0 0 32px;">BeatFrame · Alquiler audiovisual · Barcelona</p>
+
+      <h1 style="font-size:28px;font-weight:700;margin:0 0 8px;line-height:1.2;">Reserva confirmada</h1>
+      <p style="color:#888;margin:0 0 32px;font-family:monospace;font-size:12px;">Ref. ${refCode}</p>
+
+      <p style="margin:0 0 24px;">Hola ${customerName || 'cliente'},<br>
+      Tu pago ha sido procesado con éxito. Aquí tienes el resumen de tu reserva:</p>
+
+      <table style="width:100%;border-collapse:collapse;margin:0 0 24px;">
+        <thead>
+          <tr>
+            <th style="text-align:left;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Equipo</th>
+            <th style="text-align:center;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Qty · días</th>
+            <th style="text-align:right;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="padding:12px 0 0;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;">Total (IVA incl.)</td>
+            <td style="padding:12px 0 0;text-align:right;font-family:monospace;font-size:18px;font-weight:700;color:#fff;">${totalWithIVA.toFixed(2)}€</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div style="background:#141414;border:1px solid #222;border-radius:4px;padding:16px 20px;margin:0 0 32px;">
+        <p style="font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin:0 0 12px;">Fechas</p>
+        <p style="margin:0;font-size:14px;">📦 <strong>Recogida:</strong> ${pickupDate}</p>
+        <p style="margin:8px 0 0;font-size:14px;">🔄 <strong>Devolución:</strong> ${returnDate}</p>
+        <p style="margin:16px 0 0;font-size:13px;color:#888;">Dirección: Joan de Àustria 68, Poblenou, Barcelona.<br>Trae tu DNI o NIE para la recogida.</p>
+      </div>
+
+      <p style="font-size:13px;color:#888;margin:0 0 24px;">
+        Nuestro equipo revisará tu reserva y te contactará para confirmar los detalles logísticos. Si tienes cualquier duda, escríbenos a <a href="mailto:hola@beatframe.rentals" style="color:#d4b483;text-decoration:none;">hola@beatframe.rentals</a>.
+      </p>
+
+      <p style="font-family:monospace;font-size:10px;color:#444;margin:0;border-top:1px solid #1a1a1a;padding-top:24px;">
+        BeatFrame · Joan de Àustria 68, 08018 Barcelona · beatframe.rentals
+      </p>
+    </div>
+  `
+
+  return getResend().emails.send({
+    from: FROM,
+    to,
+    subject: `Reserva confirmada · ${refCode} · BeatFrame`,
+    html,
+  })
 }
 
-export async function sendRentalReadyEmail(email: string, rentalId: string, productName: string, pickupDate: string) {
-  try {
-    const result = await resend.emails.send({
-      from: 'noreply@beatframe.rentals',
-      to: email,
-      subject: `Alquiler listo para recoger: ${productName}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #28a745;">¡Alquiler listo! 📦</h2>
-          <p>Hola,</p>
-          <p>Tu alquiler está completamente procesado y listo para recoger.</p>
-          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Producto:</strong> ${productName}</p>
-            <p><strong>Fecha de recogida:</strong> ${pickupDate}</p>
-            <p><strong>ID del alquiler:</strong> ${rentalId}</p>
-          </div>
-          <p>Lugar de recogida: Calle Principal 123, Madrid</p>
-          <p>Horario: Lunes a Viernes, 10:00 - 18:00</p>
-          <p>Por favor, trae tu documento de identidad al recoger el equipo.</p>
-        </div>
-      `,
-    })
-    return result
-  } catch (error) {
-    console.error('Error sending ready email:', error)
-    throw error
+// ─── Status update email (admin → client) ───────────────────────────────────
+
+export async function sendStatusUpdateEmail({
+  to,
+  customerName,
+  refCode,
+  newStatus,
+  pickupDate,
+}: {
+  to: string
+  customerName: string
+  refCode: string
+  newStatus: string
+  pickupDate: string
+}) {
+  const statusMessages: Record<string, { subject: string; headline: string; body: string }> = {
+    confirmed: {
+      subject: `Reserva confirmada · ${refCode}`,
+      headline: 'Tu reserva ha sido confirmada',
+      body: 'Hemos revisado tu pedido y todo está en orden. Nos pondremos en contacto contigo para cerrar los detalles de la recogida.',
+    },
+    ready: {
+      subject: `Equipo listo para recoger · ${refCode}`,
+      headline: '¡Tu equipo está listo!',
+      body: `El equipo está preparado y puedes pasar a recogerlo el <strong>${pickupDate}</strong> en Joan de Àustria 68, Poblenou, Barcelona. Recuerda traer tu DNI.`,
+    },
+    picked: {
+      subject: `Equipo recogido · ${refCode}`,
+      headline: '¡Que salga todo bien!',
+      body: 'Hemos registrado la recogida del equipo. Mucha suerte con tu producción.',
+    },
+    returned: {
+      subject: `Devolución completada · ${refCode}`,
+      headline: 'Devolución completada',
+      body: 'Hemos recibido el equipo en perfecto estado. ¡Gracias por confiar en BeatFrame!',
+    },
   }
+
+  const msg = statusMessages[newStatus]
+  if (!msg) return
+
+  const html = `
+    <div style="background:#0a0a0a;color:#e5e5e5;font-family:'Helvetica Neue',Arial,sans-serif;max-width:600px;margin:0 auto;padding:40px 32px;">
+      <p style="font-family:monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#666;margin:0 0 32px;">BeatFrame · ${refCode}</p>
+      <h1 style="font-size:24px;font-weight:700;margin:0 0 16px;">${msg.headline}</h1>
+      <p style="color:#aaa;margin:0 0 24px;">Hola ${customerName || 'cliente'},</p>
+      <p style="margin:0 0 32px;" >${msg.body}</p>
+      <p style="font-family:monospace;font-size:10px;color:#444;margin:0;border-top:1px solid #1a1a1a;padding-top:24px;">
+        BeatFrame · Joan de Àustria 68, 08018 Barcelona · beatframe.rentals
+      </p>
+    </div>
+  `
+
+  return getResend().emails.send({
+    from: FROM,
+    to,
+    subject: msg.subject,
+    html,
+  })
 }
 
-export async function sendReturnReminderEmail(email: string, rentalId: string, productName: string, returnDate: string) {
-  try {
-    const result = await resend.emails.send({
-      from: 'noreply@beatframe.rentals',
-      to: email,
-      subject: `Recordatorio: Devolución de ${productName}`,
-      html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #ff9800;">Recordatorio de devolución</h2>
-          <p>Hola,</p>
-          <p>Te recordamos que tu alquiler de <strong>${productName}</strong> vence el <strong>${returnDate}</strong>.</p>
-          <p>Por favor, devuelve el equipo en las mismas condiciones en que lo recibiste.</p>
-          <div style="background: #fff3cd; padding: 15px; border-radius: 5px; margin: 20px 0;">
-            <p style="margin: 0;"><strong>⚠️ Importante:</strong> Los cargos por demora son de €10 por día.</p>
-          </div>
-          <p>
-            <a href="${process.env.BETTER_AUTH_URL || 'https://beatframe.rentals'}/mis-alquileres/${rentalId}" 
-               style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">
-              Ver detalles
-            </a>
-          </p>
-        </div>
-      `,
-    })
-    return result
-  } catch (error) {
-    console.error('Error sending return reminder email:', error)
-    throw error
-  }
+// ─── Legacy helpers (kept for backward compat) ──────────────────────────────
+
+export async function sendConfirmationEmail(
+  email: string,
+  rentalId: string,
+  productName: string,
+  startDate: string,
+  endDate: string
+) {
+  return sendOrderConfirmationEmail({
+    to: email,
+    customerName: '',
+    refCode: `BF-${rentalId.slice(0, 8).toUpperCase()}`,
+    pickupDate: startDate,
+    returnDate: endDate,
+    items: [{ name: productName, quantity: 1, days: 1, total: 0 }],
+    totalWithIVA: 0,
+  })
 }

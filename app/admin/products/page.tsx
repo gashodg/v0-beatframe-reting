@@ -17,37 +17,39 @@ export default function ProductsPage() {
       <AdminNav />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Gestion de Productos</h1>
-          <p className="text-muted-foreground mt-1">Editar precios, stock, descripciones y fotos</p>
+          <h1 className="text-2xl font-bold text-foreground">Gestión de productos</h1>
+          <p className="text-muted-foreground mt-1 text-sm">Editar precios, stock, descripciones y fotos</p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Total Productos</p>
-            <p className="text-2xl font-bold text-foreground">{totalProducts}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-8">
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Productos</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">{totalProducts}</p>
           </div>
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Categorias</p>
-            <p className="text-2xl font-bold text-foreground">{productsByCategory.length}</p>
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Categorías</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">{productsByCategory.length}</p>
           </div>
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Stock Total</p>
-            <p className="text-2xl font-bold text-foreground">{totalStock} uds</p>
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Stock total</p>
+            <p className="mt-2 text-2xl font-bold text-foreground">{totalStock} uds</p>
           </div>
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Stock Bajo</p>
-            <p className="text-2xl font-bold text-amber-500">{lowStockProducts.length}</p>
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Stock bajo</p>
+            <p className="mt-2 text-2xl font-bold text-amber-500">{lowStockProducts.length}</p>
           </div>
         </div>
 
         {/* Low Stock Warning */}
         {lowStockProducts.length > 0 && (
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-8">
-            <h3 className="font-semibold text-amber-500 mb-2">Productos con stock bajo (2 o menos)</h3>
+          <div className="border border-amber-500/40 bg-amber-500/8 rounded-sm p-4 mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-widest text-amber-500 mb-3">
+              Stock bajo — 2 unidades o menos
+            </h3>
             <div className="flex flex-wrap gap-2">
               {lowStockProducts.map(p => (
-                <span key={p.slug} className="bg-amber-500/20 text-amber-500 px-2 py-1 rounded text-sm">
+                <span key={p.slug} className="font-mono text-xs bg-amber-500/15 text-amber-400 px-2 py-1 rounded-sm">
                   {p.name} ({p.stock})
                 </span>
               ))}
@@ -57,53 +59,53 @@ export default function ProductsPage() {
 
         {/* Products by Category */}
         {productsByCategory.map(category => (
-          <div key={category.slug} className="mb-8">
-            <h2 className="text-xl font-bold text-foreground mb-4 border-b border-border pb-2">
-              {category.label} ({category.products.length})
+          <div key={category.slug} className="mb-10">
+            <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4 pb-3 border-b border-border">
+              {category.label} <span className="text-foreground/40">({category.products.length})</span>
             </h2>
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-border text-left">
-                    <th className="py-3 px-4 text-sm font-medium text-muted-foreground">Producto</th>
-                    <th className="py-3 px-4 text-sm font-medium text-muted-foreground">Marca</th>
-                    <th className="py-3 px-4 text-sm font-medium text-muted-foreground">Precio/dia</th>
-                    <th className="py-3 px-4 text-sm font-medium text-muted-foreground">Stock</th>
-                    <th className="py-3 px-4 text-sm font-medium text-muted-foreground">Acciones</th>
+                    <th className="pb-3 pr-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Producto</th>
+                    <th className="pb-3 pr-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Marca</th>
+                    <th className="pb-3 pr-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Precio/día</th>
+                    <th className="pb-3 pr-4 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Stock</th>
+                    <th className="pb-3 font-mono text-[11px] uppercase tracking-widest text-muted-foreground">Acciones</th>
                   </tr>
                 </thead>
                 <tbody>
                   {category.products.map(product => (
-                    <tr key={product.slug} className="border-b border-border/50 hover:bg-secondary/50">
-                      <td className="py-3 px-4">
+                    <tr key={product.slug} className="border-b border-border/50 hover:bg-secondary/40 transition-colors">
+                      <td className="py-3 pr-4">
                         <div className="flex items-center gap-3">
-                          <img 
-                            src={product.image} 
+                          <img
+                            src={product.image}
                             alt={product.name}
-                            className="w-12 h-12 object-contain bg-secondary rounded"
+                            className="w-10 h-10 object-contain bg-secondary rounded-sm shrink-0"
                           />
                           <div>
-                            <p className="font-medium text-foreground">{product.name}</p>
+                            <p className="text-sm font-medium text-foreground">{product.name}</p>
                             <p className="text-xs text-muted-foreground truncate max-w-xs">{product.shortDescription}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="py-3 px-4 text-sm text-muted-foreground">{product.brand}</td>
-                      <td className="py-3 px-4">
-                        <span className="font-semibold text-foreground">{product.pricePerDay}EUR</span>
-                        <span className="text-muted-foreground text-xs">/dia</span>
+                      <td className="py-3 pr-4 font-mono text-xs text-muted-foreground">{product.brand}</td>
+                      <td className="py-3 pr-4">
+                        <span className="font-mono text-sm font-semibold text-foreground">{product.pricePerDay}€</span>
+                        <span className="font-mono text-xs text-muted-foreground">/día</span>
                       </td>
-                      <td className="py-3 px-4">
-                        <span className={`font-semibold ${product.stock <= 2 ? 'text-amber-500' : 'text-green-500'}`}>
+                      <td className="py-3 pr-4">
+                        <span className={`font-mono text-sm font-semibold ${product.stock <= 2 ? 'text-amber-500' : 'text-green-400'}`}>
                           {product.stock}
                         </span>
                       </td>
-                      <td className="py-3 px-4">
-                        <Link 
+                      <td className="py-3">
+                        <Link
                           href={`/admin/products/${product.slug}`}
-                          className="text-sm bg-primary text-primary-foreground px-3 py-1 rounded hover:opacity-90"
+                          className="font-mono text-xs text-muted-foreground hover:text-accent transition-colors"
                         >
-                          Editar
+                          Editar →
                         </Link>
                       </td>
                     </tr>

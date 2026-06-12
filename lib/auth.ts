@@ -1,9 +1,9 @@
-// Placeholder auth - implement real auth as needed
+// Placeholder auth — real auth (Better Auth) can be wired here later.
+// All guest checkout flows bypass this entirely.
 export const auth = {
   api: {
-    getSession: async ({ headers }: any) => {
-      // Return mock session for now
+    getSession: async (_opts: { headers: Headers }): Promise<{ user: { id: string; email: string } } | null> => {
       return null
-    }
-  }
+    },
+  },
 }

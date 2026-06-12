@@ -13,7 +13,7 @@ export function ProductCard({ product }: { product: Product }) {
       <div
         className={cn(
           "relative aspect-[4/3] overflow-hidden",
-          product.whiteBg ? "bg-[#ece8df]" : "bg-secondary",
+          product.whiteBg ? "bg-[var(--product-bg-warm)]" : "bg-secondary",
         )}
       >
         <Image
@@ -22,15 +22,15 @@ export function ProductCard({ product }: { product: Product }) {
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
           className={cn(
-            "transition-transform duration-500 group-hover:scale-105",
+            "transition-transform duration-500 group-hover:scale-[1.03]",
             product.whiteBg ? "object-contain p-4 mix-blend-multiply" : "object-cover",
           )}
         />
-        <div className="absolute left-3 top-3 inline-flex items-center rounded-sm bg-background/80 backdrop-blur px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <div className="absolute left-3 top-3 inline-flex items-center rounded-sm bg-card px-2 py-1 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
           {product.categoryLabel}
         </div>
-        <div className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-sm bg-background/80 backdrop-blur text-foreground opacity-0 group-hover:opacity-100 transition-opacity">
-          <ArrowUpRight className="h-4 w-4" />
+        <div className="absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-sm bg-card text-foreground opacity-0 group-hover:opacity-100 transition-opacity">
+          <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
         </div>
       </div>
 

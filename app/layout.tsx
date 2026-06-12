@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter, JetBrains_Mono } from "next/font/google"
+import { Barlow, Barlow_Semi_Condensed, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
@@ -8,9 +8,17 @@ import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { Toaster } from "@/components/ui/toaster"
 
-const inter = Inter({
+const barlow = Barlow({
   subsets: ["latin"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-barlow",
+  display: "swap",
+})
+
+const barlowSemiCondensed = Barlow_Semi_Condensed({
+  subsets: ["latin"],
+  weight: ["600", "700"],
+  variable: "--font-barlow-semi-condensed",
   display: "swap",
 })
 
@@ -52,7 +60,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="es" className={`${inter.variable} ${jetbrainsMono.variable} bg-background`}>
+    <html lang="es" className={`${barlow.variable} ${barlowSemiCondensed.variable} ${jetbrainsMono.variable} bg-background`}>
       <body className="font-sans antialiased min-h-screen flex flex-col">
         <Suspense fallback={null}>
           <CartProvider>

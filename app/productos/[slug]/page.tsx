@@ -108,7 +108,7 @@ export default async function ProductPage({ params }: { params: Promise<Params> 
             {/* Info */}
             <div className="lg:col-span-5">
               <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                {product.brand} — {product.categoryLabel}
+                {product.brand} · {product.categoryLabel}
               </p>
               <h1 className="mt-3 text-3xl md:text-4xl font-bold tracking-tight text-balance">{product.name}</h1>
               <p className="mt-4 text-base leading-relaxed text-muted-foreground">{product.description}</p>

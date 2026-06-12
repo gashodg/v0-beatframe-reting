@@ -13,94 +13,88 @@ export default function AdminPage() {
       <AdminNav />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground">Panel de Administracion</h1>
-          <p className="text-muted-foreground mt-1">BeatFrame - Sistema de gestion de alquileres audiovisuales</p>
+          <h1 className="text-2xl font-bold text-foreground">Panel de administración</h1>
+          <p className="text-muted-foreground mt-1 text-sm">BeatFrame · Gestión de alquileres audiovisuales</p>
         </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Total Productos</p>
-            <p className="text-3xl font-bold text-foreground">{totalProducts}</p>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-px bg-border mb-8">
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Productos</p>
+            <p className="mt-2 text-3xl font-bold text-foreground">{totalProducts}</p>
           </div>
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Stock Total</p>
-            <p className="text-3xl font-bold text-foreground">{totalStock}</p>
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Stock total</p>
+            <p className="mt-2 text-3xl font-bold text-foreground">{totalStock}</p>
           </div>
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Categorias</p>
-            <p className="text-3xl font-bold text-foreground">{categories.length}</p>
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Categorías</p>
+            <p className="mt-2 text-3xl font-bold text-foreground">{categories.length}</p>
           </div>
-          <div className="bg-card border border-border rounded-lg p-4">
-            <p className="text-sm text-muted-foreground">Stock Bajo</p>
-            <p className="text-3xl font-bold text-amber-500">{lowStockProducts.length}</p>
+          <div className="bg-card p-5">
+            <p className="font-mono text-xs uppercase tracking-widest text-muted-foreground">Stock bajo</p>
+            <p className="mt-2 text-3xl font-bold text-amber-500">{lowStockProducts.length}</p>
           </div>
         </div>
 
         {/* Low Stock Warning */}
         {lowStockProducts.length > 0 && (
-          <div className="bg-amber-500/10 border border-amber-500/30 rounded-lg p-4 mb-8">
-            <h3 className="font-semibold text-amber-500 mb-2">Alerta: Productos con stock bajo</h3>
+          <div className="border border-amber-500/40 bg-amber-500/8 rounded-sm p-4 mb-8">
+            <h3 className="font-mono text-xs uppercase tracking-widest text-amber-500 mb-3">
+              Stock bajo — {lowStockProducts.length} productos
+            </h3>
             <div className="flex flex-wrap gap-2">
               {lowStockProducts.slice(0, 5).map(p => (
-                <span key={p.slug} className="bg-amber-500/20 text-amber-500 px-2 py-1 rounded text-sm">
+                <span key={p.slug} className="font-mono text-xs bg-amber-500/15 text-amber-400 px-2 py-1 rounded-sm">
                   {p.name} ({p.stock})
                 </span>
               ))}
               {lowStockProducts.length > 5 && (
-                <span className="text-amber-500 text-sm">+{lowStockProducts.length - 5} mas</span>
+                <span className="font-mono text-xs text-amber-500">+{lowStockProducts.length - 5} más</span>
               )}
             </div>
           </div>
         )}
 
         {/* Quick Actions */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-          <Link href="/admin/products" className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-colors">
-            <h3 className="text-lg font-semibold text-foreground mb-2">Gestion de Productos</h3>
-            <p className="text-sm text-muted-foreground mb-4">Editar precios, stock, descripciones y fotos</p>
-            <span className="text-primary text-sm font-medium">Ver {totalProducts} productos</span>
-          </Link>
-
-          <Link href="/admin/rentals" className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-colors">
-            <h3 className="text-lg font-semibold text-foreground mb-2">Control de Alquileres</h3>
-            <p className="text-sm text-muted-foreground mb-4">Ver reservas, aprobar documentos, gestionar entregas</p>
-            <span className="text-primary text-sm font-medium">Ver alquileres</span>
-          </Link>
-
-          <Link href="/admin/documents" className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-colors">
-            <h3 className="text-lg font-semibold text-foreground mb-2">Documentos</h3>
-            <p className="text-sm text-muted-foreground mb-4">DNI, contratos y firmas de clientes</p>
-            <span className="text-primary text-sm font-medium">Ver documentos</span>
-          </Link>
-
-          <Link href="/admin/emails" className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-colors">
-            <h3 className="text-lg font-semibold text-foreground mb-2">Historial de Emails</h3>
-            <p className="text-sm text-muted-foreground mb-4">Confirmaciones y notificaciones enviadas</p>
-            <span className="text-primary text-sm font-medium">Ver emails</span>
-          </Link>
-
-          <Link href="/admin/stats" className="bg-card border border-border rounded-lg p-6 hover:border-primary transition-colors">
-            <h3 className="text-lg font-semibold text-foreground mb-2">Estadisticas</h3>
-            <p className="text-sm text-muted-foreground mb-4">Ingresos, metricas y analisis</p>
-            <span className="text-primary text-sm font-medium">Ver estadisticas</span>
-          </Link>
+        <div className="border-t border-border mb-8">
+          {[
+            { href: '/admin/products', label: 'Gestión de productos', desc: `Editar precios, stock, descripciones y fotos`, meta: `${totalProducts} productos` },
+            { href: '/admin/rentals', label: 'Control de alquileres', desc: 'Ver reservas, aprobar documentos, gestionar entregas', meta: 'Ver alquileres' },
+            { href: '/admin/documents', label: 'Documentos', desc: 'DNI, contratos y firmas de clientes', meta: 'Ver documentos' },
+            { href: '/admin/emails', label: 'Historial de emails', desc: 'Confirmaciones y notificaciones enviadas', meta: 'Ver emails' },
+            { href: '/admin/stats', label: 'Estadísticas', desc: 'Ingresos, métricas y análisis', meta: 'Ver estadísticas' },
+          ].map(item => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="group flex items-center justify-between gap-4 border-b border-border py-4 hover:text-accent transition-colors"
+            >
+              <div>
+                <p className="text-sm font-semibold text-foreground group-hover:text-accent transition-colors">{item.label}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{item.desc}</p>
+              </div>
+              <span className="font-mono text-xs text-muted-foreground group-hover:text-accent transition-colors shrink-0">{item.meta} →</span>
+            </Link>
+          ))}
         </div>
 
         {/* Featured Products */}
-        <div className="bg-card border border-border rounded-lg p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Productos Destacados ({featuredProducts.length})</h3>
+        <div>
+          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-4">
+            Productos destacados ({featuredProducts.length})
+          </h2>
           <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {featuredProducts.slice(0, 6).map(product => (
-              <div key={product.slug} className="text-center">
-                <img 
-                  src={product.image} 
+              <Link key={product.slug} href={`/admin/products/${product.slug}`} className="group">
+                <img
+                  src={product.image}
                   alt={product.name}
-                  className="w-full h-20 object-contain bg-secondary rounded mb-2"
+                  className="w-full h-16 object-contain bg-secondary rounded-sm mb-2"
                 />
-                <p className="text-xs text-foreground truncate">{product.name}</p>
-                <p className="text-xs text-muted-foreground">{product.pricePerDay}EUR/dia</p>
-              </div>
+                <p className="text-xs font-medium text-foreground truncate group-hover:text-accent transition-colors">{product.name}</p>
+                <p className="text-xs text-muted-foreground">{product.pricePerDay}€/día</p>
+              </Link>
             ))}
           </div>
         </div>

@@ -67,7 +67,7 @@ export function ContactForm() {
 
       <div className="grid md:grid-cols-2 gap-4">
         <Field label="Fecha aproximada" name="fecha" type="date" />
-        <Field label="Presupuesto estimado" name="presupuesto" placeholder="p. ej. 1.500€ — 3.000€" />
+        <Field label="Presupuesto estimado" name="presupuesto" placeholder="p. ej. 1.500€ - 3.000€" />
       </div>
 
       <div>

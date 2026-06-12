@@ -1,26 +1,20 @@
-import { Radio, Truck, Headphones, ShieldCheck } from "lucide-react"
-
 const services = [
   {
-    icon: Radio,
     title: "Streaming multicámara",
     description:
       "Packs listos para realización en directo: mixer, cámaras, transmisores y monitorización. Salida directa a YouTube, Twitch o RTMP privado.",
   },
   {
-    icon: Truck,
     title: "Entrega en Barcelona",
     description:
       "Recogida en nuestro estudio de Poblenou o entrega en venue. Servicio 24h y soporte in-situ con técnico bajo demanda.",
   },
   {
-    icon: Headphones,
     title: "Asesoría técnica",
     description:
       "Te ayudamos a dimensionar el equipo ideal para tu concierto, videoclip o podcast musical. Sin coste previo.",
   },
   {
-    icon: ShieldCheck,
     title: "Material revisado",
     description:
       "Cada equipo pasa un QC antes de salir del almacén. Sellos de garantía, baterías cargadas y firmware actualizado.",
@@ -39,11 +33,15 @@ export function ServicesSection() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-border">
-          {services.map((service) => (
-            <div key={service.title} className="flex flex-col gap-4 bg-background p-8">
-              <service.icon className="h-6 w-6 text-accent" strokeWidth={1.5} />
-              <h3 className="text-lg font-semibold text-foreground">{service.title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+          {services.map((service, i) => (
+            <div key={service.title} className="flex flex-col justify-between gap-12 bg-background p-8 min-h-[220px]">
+              <span className="font-mono text-[11px] uppercase tracking-widest text-muted-foreground">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <div className="flex flex-col gap-3">
+                <h3 className="text-lg font-semibold text-foreground">{service.title}</h3>
+                <p className="text-sm leading-relaxed text-muted-foreground">{service.description}</p>
+              </div>
             </div>
           ))}
         </div>
