@@ -84,9 +84,14 @@ export const rentals = pgTable('rentals', {
   endDate: text('endDate').notNull(),
   quantity: integer('quantity').notNull().default(1),
   totalPrice: numeric('totalPrice', { precision: 10, scale: 2 }).notNull(),
-  // Stripe
+  // Stripe — equipment payment
   stripePaymentId: text('stripePaymentId'),
   paymentStatus: text('paymentStatus').default('pending'),
+  equipmentStripeUrl: text('equipmentStripeUrl'),
+  // Stripe — deposit (fianza 100€)
+  depositStatus: text('depositStatus').default('pending'),
+  depositStripeSessionId: text('depositStripeSessionId'),
+  depositStripeUrl: text('depositStripeUrl'),
   // pending | paid
   createdAt: timestamp('createdAt').notNull().defaultNow(),
   updatedAt: timestamp('updatedAt').notNull().defaultNow(),

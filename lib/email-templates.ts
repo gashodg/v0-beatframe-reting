@@ -1,9 +1,201 @@
 import { Resend } from 'resend'
 
 const FROM = 'BeatFrame <noreply@beatframe.rentals>'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'hola@beatframe.rentals'
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY)
+}
+
+// ─── Admin: nueva solicitud de alquiler ─────────────────────────────────────
+
+export async function sendAdminNewOrderEmail({
+  refCode,
+  customerName,
+  customerEmail,
+  customerPhone,
+  customerCompany,
+  customerCIF,
+  pickupDate,
+  returnDate,
+  notes,
+  items,
+  equipmentTotal,
+}: {
+  refCode: string
+  customerName: string
+  customerEmail: string
+  customerPhone: string
+  customerCompany?: string
+  customerCIF?: string
+  pickupDate: string
+  returnDate: string
+  notes?: string
+  items: { name: string; quantity: number; days: number; total: number }[]
+  equipmentTotal: number
+}) {
+  const itemRows = items
+    .map(
+      (i) => `<tr>
+        <td style="padding:8px 0;border-bottom:1px solid #222;">${i.name}</td>
+        <td style="padding:8px 0;border-bottom:1px solid #222;text-align:center;">${i.quantity}× · ${i.days}d</td>
+        <td style="padding:8px 0;border-bottom:1px solid #222;text-align:right;font-family:monospace;">${i.total.toFixed(2)}€</td>
+      </tr>`
+    )
+    .join('')
+
+  const html = `
+    <div style="background:#0a0a0a;color:#e5e5e5;font-family:'Helvetica Neue',Arial,sans-serif;max-width:600px;margin:0 auto;padding:40px 32px;">
+      <p style="font-family:monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#666;margin:0 0 24px;">BeatFrame · Nueva solicitud</p>
+      <h1 style="font-size:22px;font-weight:700;margin:0 0 6px;">Nueva solicitud de alquiler</h1>
+      <p style="color:#888;margin:0 0 28px;font-family:monospace;font-size:12px;">Ref. ${refCode}</p>
+
+      <div style="background:#141414;border:1px solid #222;border-radius:4px;padding:16px 20px;margin:0 0 24px;">
+        <p style="font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin:0 0 10px;">Cliente</p>
+        <p style="margin:0 0 4px;font-size:14px;"><strong>${customerName}</strong></p>
+        <p style="margin:0 0 4px;font-size:13px;color:#aaa;">${customerEmail} · ${customerPhone}</p>
+        ${customerCompany ? `<p style="margin:0 0 4px;font-size:13px;color:#aaa;">${customerCompany}${customerCIF ? ` · ${customerCIF}` : ''}</p>` : ''}
+        <p style="margin:8px 0 0;font-size:13px;color:#aaa;">📦 Recogida: <strong>${pickupDate}</strong> → Devolución: <strong>${returnDate}</strong></p>
+        ${notes ? `<p style="margin:8px 0 0;font-size:13px;color:#aaa;font-style:italic;">"${notes}"</p>` : ''}
+      </div>
+
+      <table style="width:100%;border-collapse:collapse;margin:0 0 16px;">
+        <thead>
+          <tr>
+            <th style="text-align:left;font-family:monospace;font-size:10px;text-transform:uppercase;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Equipo</th>
+            <th style="text-align:center;font-family:monospace;font-size:10px;text-transform:uppercase;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Qty·días</th>
+            <th style="text-align:right;font-family:monospace;font-size:10px;text-transform:uppercase;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Total</th>
+          </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="padding:10px 0 0;font-family:monospace;font-size:10px;color:#666;">Total equipo (IVA incl.)</td>
+            <td style="padding:10px 0 0;text-align:right;font-family:monospace;font-size:16px;font-weight:700;">${equipmentTotal.toFixed(2)}€</td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding:4px 0 0;font-family:monospace;font-size:10px;color:#666;">Fianza</td>
+            <td style="padding:4px 0 0;text-align:right;font-family:monospace;font-size:13px;color:#aaa;">100.00€</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <p style="font-family:monospace;font-size:10px;color:#444;margin:24px 0 0;border-top:1px solid #1a1a1a;padding-top:20px;">
+        BeatFrame · Panel admin: ${process.env.NEXT_PUBLIC_APP_URL ?? ''}/admin/rentals
+      </p>
+    </div>
+  `
+
+  return getResend().emails.send({
+    from: FROM,
+    to: ADMIN_EMAIL,
+    subject: `Nueva solicitud ${refCode} — ${customerName}`,
+    html,
+  })
+}
+
+// ─── Cliente: confirmación de solicitud con links de pago ────────────────────
+
+export async function sendClientRequestEmail({
+  to,
+  customerName,
+  refCode,
+  pickupDate,
+  returnDate,
+  items,
+  equipmentTotal,
+  depositUrl,
+  equipmentUrl,
+}: {
+  to: string
+  customerName: string
+  refCode: string
+  pickupDate: string
+  returnDate: string
+  items: { name: string; quantity: number; days: number; total: number }[]
+  equipmentTotal: number
+  depositUrl: string
+  equipmentUrl: string
+}) {
+  const itemRows = items
+    .map(
+      (i) => `<tr>
+        <td style="padding:10px 0;border-bottom:1px solid #222;">${i.name}</td>
+        <td style="padding:10px 0;border-bottom:1px solid #222;text-align:center;white-space:nowrap;">${i.quantity}× · ${i.days}d</td>
+        <td style="padding:10px 0;border-bottom:1px solid #222;text-align:right;font-family:monospace;">${i.total.toFixed(2)}€</td>
+      </tr>`
+    )
+    .join('')
+
+  const html = `
+    <div style="background:#0a0a0a;color:#e5e5e5;font-family:'Helvetica Neue',Arial,sans-serif;max-width:600px;margin:0 auto;padding:40px 32px;">
+      <p style="font-family:monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:#666;margin:0 0 32px;">BeatFrame · Alquiler audiovisual · Barcelona</p>
+
+      <h1 style="font-size:26px;font-weight:700;margin:0 0 8px;">Solicitud recibida</h1>
+      <p style="color:#888;margin:0 0 8px;font-family:monospace;font-size:12px;">Ref. ${refCode}</p>
+      <p style="color:#aaa;margin:0 0 32px;font-size:14px;">Hola ${customerName || 'cliente'}, hemos recibido tu solicitud. Completa los pagos para confirmar tu reserva.</p>
+
+      <table style="width:100%;border-collapse:collapse;margin:0 0 24px;">
+        <thead>
+          <tr>
+            <th style="text-align:left;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Equipo</th>
+            <th style="text-align:center;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Qty · días</th>
+            <th style="text-align:right;font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;padding-bottom:8px;border-bottom:1px solid #333;">Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>${itemRows}</tbody>
+        <tfoot>
+          <tr>
+            <td colspan="2" style="padding:12px 0 0;font-family:monospace;font-size:10px;color:#666;">Total alquiler (IVA incl.)</td>
+            <td style="padding:12px 0 0;text-align:right;font-family:monospace;font-size:18px;font-weight:700;">${equipmentTotal.toFixed(2)}€</td>
+          </tr>
+        </tfoot>
+      </table>
+
+      <div style="background:#141414;border:1px solid #222;border-radius:4px;padding:16px 20px;margin:0 0 32px;">
+        <p style="font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin:0 0 10px;">Fechas</p>
+        <p style="margin:0;font-size:14px;">📦 <strong>Recogida:</strong> ${pickupDate}</p>
+        <p style="margin:6px 0 0;font-size:14px;">🔄 <strong>Devolución:</strong> ${returnDate}</p>
+      </div>
+
+      <div style="background:#141414;border:1px solid #333;border-radius:4px;padding:16px 20px;margin:0 0 32px;">
+        <p style="font-family:monospace;font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin:0 0 10px;">Condiciones de fianza</p>
+        <p style="font-size:13px;color:#aaa;margin:0;line-height:1.6;">Se requiere una fianza de <strong style="color:#e5e5e5;">100€</strong> reembolsable. Se devuelve íntegramente una vez comprobado que el equipo vuelve en las mismas condiciones en que fue entregado.</p>
+      </div>
+
+      <p style="font-family:monospace;font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:#666;margin:0 0 14px;">Completa tu reserva</p>
+
+      <table style="width:100%;border-collapse:collapse;margin:0 0 32px;">
+        <tr>
+          <td style="padding:0 8px 0 0;width:50%;">
+            <a href="${depositUrl}" style="display:block;text-align:center;background:#1a1a1a;border:1px solid #333;color:#e5e5e5;text-decoration:none;padding:14px 16px;border-radius:4px;font-size:13px;font-weight:600;">
+              Pagar fianza<br><span style="font-family:monospace;font-size:16px;font-weight:700;color:#d4b483;">100€</span>
+            </a>
+          </td>
+          <td style="padding:0 0 0 8px;width:50%;">
+            <a href="${equipmentUrl}" style="display:block;text-align:center;background:#d4b483;border:1px solid #d4b483;color:#0a0a0a;text-decoration:none;padding:14px 16px;border-radius:4px;font-size:13px;font-weight:600;">
+              Pagar alquiler<br><span style="font-family:monospace;font-size:16px;font-weight:700;">${equipmentTotal.toFixed(2)}€</span>
+            </a>
+          </td>
+        </tr>
+      </table>
+
+      <p style="font-size:13px;color:#888;margin:0 0 24px;line-height:1.6;">
+        Los links son válidos durante 30 días. Si tienes cualquier duda escríbenos a <a href="mailto:hola@beatframe.rentals" style="color:#d4b483;text-decoration:none;">hola@beatframe.rentals</a>.
+      </p>
+
+      <p style="font-family:monospace;font-size:10px;color:#444;margin:0;border-top:1px solid #1a1a1a;padding-top:24px;">
+        BeatFrame · Joan de Àustria 68, 08018 Barcelona · beatframe.rentals
+      </p>
+    </div>
+  `
+
+  return getResend().emails.send({
+    from: FROM,
+    to,
+    subject: `Solicitud de alquiler · ${refCode} · BeatFrame`,
+    html,
+  })
 }
 
 // ─── Order confirmation (multi-item) ────────────────────────────────────────

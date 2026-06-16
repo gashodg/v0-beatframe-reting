@@ -122,7 +122,8 @@ export default async function RentalDetailPage({
               <Row label="Recogida" value={rental.startDate} />
               <Row label="Devolución" value={rental.endDate} />
               <Row label="Total" value={`${parseFloat(String(rental.totalPrice)).toFixed(2)}€ (IVA incl.)`} />
-              <Row label="Pago" value={rental.paymentStatus === 'paid' ? 'Pagado ✓' : 'Pendiente'} />
+              <Row label="Alquiler" value={rental.paymentStatus === 'paid' ? '✓ Pagado' : '⏳ Pendiente de pago'} />
+              <Row label="Fianza 100€" value={rental.depositStatus === 'paid' ? '✓ Pagada' : '⏳ Pendiente de pago'} />
             </dl>
           </div>
         </div>

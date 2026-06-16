@@ -4,6 +4,7 @@ import Stripe from 'stripe'
 import { db } from '@/lib/db'
 import { rentals } from '@/lib/db/schema'
 import { products } from '@/lib/products'
+import { sendAdminNewOrderEmail, sendClientRequestEmail } from '@/lib/email-templates'
 
 function getStripe() {
   return new Stripe(process.env.STRIPE_SECRET_KEY!)
@@ -31,57 +32,82 @@ export type ContactPayload = {
   notas: string
 }
 
+const DEPOSIT_AMOUNT = 100 // €100 fianza
+
 export async function createGuestCheckout(
   contact: ContactPayload,
   cartItems: CartItemPayload[]
-): Promise<{ url: string } | { error: string }> {
+): Promise<{ refCode: string } | { error: string }> {
   if (!cartItems.length) return { error: 'El carrito está vacío.' }
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
   const orderGroupId = crypto.randomUUID()
   const customerName = `${contact.nombre} ${contact.apellidos}`.trim()
+  const refCode = `BF-${orderGroupId.slice(0, 8).toUpperCase()}`
 
-  // Build Stripe line items (prices already include IVA 21%)
-  const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cartItems.map((item) => {
-    const product = products.find((p) => p.slug === item.productSlug)
-    const name = product?.name ?? item.productSlug
-    const subtotalWithIVA = item.pricePerDay * item.quantity * item.days * 1.21
-
-    return {
-      price_data: {
-        currency: 'eur',
-        product_data: {
-          name,
-          description: `${item.quantity}× · ${item.days} día${item.days !== 1 ? 's' : ''}`,
-        },
-        unit_amount: Math.round(subtotalWithIVA * 100),
-      },
-      quantity: 1,
-    }
-  })
+  // Total equipment amount with IVA
+  const equipmentTotal = cartItems.reduce(
+    (sum, item) => sum + item.pricePerDay * item.quantity * item.days * 1.21,
+    0
+  )
 
   try {
-    const session = await getStripe().checkout.sessions.create({
+    const stripe = getStripe()
+    const expiresAt = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 days
+
+    // --- Stripe session for deposit (€100 fianza) ---
+    const depositSession = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
-      line_items: lineItems,
+      line_items: [{
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: `Fianza de alquiler · ${refCode}`,
+            description: 'Se devuelve íntegramente al comprobar el equipo en buen estado',
+          },
+          unit_amount: DEPOSIT_AMOUNT * 100,
+        },
+        quantity: 1,
+      }],
       mode: 'payment',
       customer_email: contact.email,
-      success_url: `${baseUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${baseUrl}/checkout`,
-      metadata: {
-        orderGroupId,
-        customerName,
-        customerEmail: contact.email,
-      },
-      payment_intent_data: {
-        description: `BeatFrame — Alquiler ${orderGroupId.slice(0, 8).toUpperCase()}`,
-      },
+      expires_at: expiresAt,
+      success_url: `${baseUrl}/pago/gracias?type=deposito&ref=${refCode}`,
+      cancel_url: `${baseUrl}/`,
+      metadata: { type: 'deposit', orderGroupId, refCode },
     })
 
-    // Create one pending rental record per cart item
-    for (const item of cartItems) {
-      const subtotalWithIVA = item.pricePerDay * item.quantity * item.days * 1.21
+    // --- Stripe session for equipment ---
+    const equipmentLineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = cartItems.map((item) => {
+      const product = products.find((p) => p.slug === item.productSlug)
+      const subtotal = item.pricePerDay * item.quantity * item.days * 1.21
+      return {
+        price_data: {
+          currency: 'eur',
+          product_data: {
+            name: product?.name ?? item.productSlug,
+            description: `${item.quantity}× · ${item.days} día${item.days !== 1 ? 's' : ''}`,
+          },
+          unit_amount: Math.round(subtotal * 100),
+        },
+        quantity: 1,
+      }
+    })
 
+    const equipmentSession = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: equipmentLineItems,
+      mode: 'payment',
+      customer_email: contact.email,
+      expires_at: expiresAt,
+      success_url: `${baseUrl}/pago/gracias?type=alquiler&ref=${refCode}`,
+      cancel_url: `${baseUrl}/`,
+      metadata: { type: 'equipment', orderGroupId, refCode },
+    })
+
+    // --- Create one rental record per cart item ---
+    for (const item of cartItems) {
+      const subtotal = item.pricePerDay * item.quantity * item.days * 1.21
       await db.insert(rentals).values({
         id: crypto.randomUUID(),
         orderGroupId,
@@ -95,41 +121,72 @@ export async function createGuestCheckout(
         quantity: item.quantity,
         startDate: contact.fecha_recogida,
         endDate: contact.fecha_devolucion,
-        totalPrice: subtotalWithIVA.toFixed(2),
-        stripePaymentId: session.id,
+        totalPrice: subtotal.toFixed(2),
+        stripePaymentId: equipmentSession.id,
+        equipmentStripeUrl: equipmentSession.url,
         status: 'pending',
         paymentStatus: 'pending',
+        depositStatus: 'pending',
+        depositStripeSessionId: depositSession.id,
+        depositStripeUrl: depositSession.url,
       })
     }
 
-    return { url: session.url! }
+    // Build item list for emails
+    const emailItems = cartItems.map((item) => {
+      const product = products.find((p) => p.slug === item.productSlug)
+      return {
+        name: product?.name ?? item.productSlug,
+        quantity: item.quantity,
+        days: item.days,
+        total: item.pricePerDay * item.quantity * item.days * 1.21,
+      }
+    })
+
+    // --- Send admin notification email ---
+    await sendAdminNewOrderEmail({
+      refCode,
+      customerName,
+      customerEmail: contact.email,
+      customerPhone: contact.telefono,
+      customerCompany: contact.empresa,
+      customerCIF: contact.cif,
+      pickupDate: contact.fecha_recogida,
+      returnDate: contact.fecha_devolucion,
+      notes: contact.notas,
+      items: emailItems,
+      equipmentTotal,
+    }).catch(console.error)
+
+    // --- Send client confirmation email with payment links ---
+    await sendClientRequestEmail({
+      to: contact.email,
+      customerName,
+      refCode,
+      pickupDate: contact.fecha_recogida,
+      returnDate: contact.fecha_devolucion,
+      items: emailItems,
+      equipmentTotal,
+      depositUrl: depositSession.url!,
+      equipmentUrl: equipmentSession.url!,
+    }).catch(console.error)
+
+    return { refCode }
   } catch (err) {
     console.error('[createGuestCheckout]', err)
-    return { error: 'Error al conectar con el sistema de pago. Inténtalo de nuevo.' }
+    return { error: 'Error al enviar la solicitud. Inténtalo de nuevo.' }
   }
 }
 
+// Legacy — kept for webhook success page
 export async function confirmOrderBySession(sessionId: string) {
-  const session = await getStripe().checkout.sessions.retrieve(sessionId)
-
+  const stripe = getStripe()
+  const session = await stripe.checkout.sessions.retrieve(sessionId)
   if (session.payment_status !== 'paid') return null
-
   const orderGroupId = session.metadata?.orderGroupId
   if (!orderGroupId) return null
 
-  const { eq, and } = await import('drizzle-orm')
-
-  // Idempotent: only update still-pending rentals
-  await db
-    .update(rentals)
-    .set({ paymentStatus: 'paid', status: 'confirmed', updatedAt: new Date() })
-    .where(
-      and(
-        eq(rentals.orderGroupId, orderGroupId),
-        eq(rentals.paymentStatus, 'pending')
-      )
-    )
-
+  const { eq } = await import('drizzle-orm')
   const orderRentals = await db
     .select()
     .from(rentals)

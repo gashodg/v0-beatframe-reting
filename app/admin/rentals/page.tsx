@@ -66,7 +66,7 @@ export default async function RentalsPage() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-secondary/50">
-                  {['Ref.', 'Cliente', 'Equipo', 'Fechas', 'Total', 'Estado', ''].map((h) => (
+                  {['Ref.', 'Cliente', 'Equipo', 'Fechas', 'Total', 'Fianza', 'Alquiler', 'Estado', ''].map((h) => (
                     <th key={h} className="px-4 py-3 text-left font-mono text-[10px] uppercase tracking-widest text-muted-foreground">
                       {h}
                     </th>
@@ -95,6 +95,16 @@ export default async function RentalsPage() {
                       </td>
                       <td className="px-4 py-3 font-mono text-sm font-semibold whitespace-nowrap">
                         {parseFloat(String(rental.totalPrice)).toFixed(2)}€
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center rounded-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${rental.depositStatus === 'paid' ? 'text-green-400 bg-green-400/10' : 'text-amber-400 bg-amber-400/10'}`}>
+                          {rental.depositStatus === 'paid' ? 'Pagada' : 'Pendiente'}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        <span className={`inline-flex items-center rounded-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${rental.paymentStatus === 'paid' ? 'text-green-400 bg-green-400/10' : 'text-amber-400 bg-amber-400/10'}`}>
+                          {rental.paymentStatus === 'paid' ? 'Pagado' : 'Pendiente'}
+                        </span>
                       </td>
                       <td className="px-4 py-3">
                         <span className={`inline-flex items-center rounded-sm px-2 py-0.5 font-mono text-[10px] uppercase tracking-widest ${status.color}`}>

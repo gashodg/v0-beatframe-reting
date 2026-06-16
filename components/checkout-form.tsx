@@ -4,7 +4,7 @@ import type React from "react"
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { Lock, Building2, Calendar, CreditCard, ArrowRight } from "lucide-react"
+import { Building2, Calendar, ArrowRight, CheckCircle } from "lucide-react"
 import { useCart } from "./cart/cart-provider"
 import { createGuestCheckout } from "@/app/actions/checkout"
 
@@ -53,8 +53,8 @@ export function CheckoutForm() {
       return
     }
 
-    // Redirect to Stripe Checkout
-    window.location.href = result.url
+    clear()
+    window.location.href = `/checkout/confirmacion?ref=${result.refCode}`
   }
 
   if (items.length === 0) {
@@ -125,18 +125,22 @@ export function CheckoutForm() {
           />
         </section>
 
-        {/* Pago info */}
+        {/* Condiciones de alquiler */}
         <section>
-          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-5">05 — Pago</h2>
-          <div className="rounded-sm border border-border bg-card p-5 flex items-center gap-4">
-            <CreditCard className="h-5 w-5 text-accent shrink-0" />
-            <div>
-              <p className="text-sm font-medium text-foreground">Pago seguro con Stripe</p>
-              <p className="mt-0.5 text-xs text-muted-foreground">
-                Al confirmar serás redirigido a Stripe para completar el pago con tarjeta de forma segura.
-              </p>
-            </div>
-            <Lock className="h-4 w-4 text-muted-foreground shrink-0 ml-auto" />
+          <h2 className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-5">05 — Condiciones de alquiler</h2>
+          <div className="rounded-sm border border-border bg-card divide-y divide-border">
+            {[
+              { text: 'El equipo debe devolverse en las mismas condiciones en que fue entregado.' },
+              { text: 'Se requiere una fianza de 100€ reembolsable al comprobar el buen estado del equipo.' },
+              { text: 'La fianza se devuelve íntegramente si no hay daños, piezas faltantes o suciedad.' },
+              { text: 'Recogida y devolución en Joan de Àustria 68, Poblenou, Barcelona. Trae tu DNI o NIE.' },
+              { text: 'Al enviar esta solicitud recibirás un email con los links de pago para la fianza y el alquiler.' },
+            ].map((c, i) => (
+              <div key={i} className="flex items-start gap-3 p-4">
+                <CheckCircle className="h-4 w-4 mt-0.5 text-accent shrink-0" />
+                <p className="text-xs text-muted-foreground leading-relaxed">{c.text}</p>
+              </div>
+            ))}
           </div>
         </section>
       </div>
@@ -197,17 +201,17 @@ export function CheckoutForm() {
               {processing ? (
                 <>
                   <span className="h-4 w-4 animate-spin rounded-full border-2 border-accent-foreground border-t-transparent" />
-                  Preparando pago…
+                  Enviando solicitud…
                 </>
               ) : (
                 <>
-                  Pagar {totalConIva.toFixed(2)}€ con Stripe
+                  Enviar solicitud
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
             <p className="text-[11px] text-muted-foreground text-center leading-relaxed">
-              Al confirmar aceptas los términos de alquiler y política de fianzas.
+              Recibirás un email con los links de pago para la fianza (100€) y el alquiler ({totalConIva.toFixed(2)}€).
             </p>
           </div>
         </div>
