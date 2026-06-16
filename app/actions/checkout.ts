@@ -53,7 +53,6 @@ export async function createGuestCheckout(
 
   try {
     const stripe = getStripe()
-    const expiresAt = Math.floor(Date.now() / 1000) + 30 * 24 * 60 * 60 // 30 days
 
     // --- Stripe session for deposit (€100 fianza) ---
     const depositSession = await stripe.checkout.sessions.create({
@@ -71,7 +70,6 @@ export async function createGuestCheckout(
       }],
       mode: 'payment',
       customer_email: contact.email,
-      expires_at: expiresAt,
       success_url: `${baseUrl}/pago/gracias?type=deposito&ref=${refCode}`,
       cancel_url: `${baseUrl}/`,
       metadata: { type: 'deposit', orderGroupId, refCode },
@@ -99,7 +97,6 @@ export async function createGuestCheckout(
       line_items: equipmentLineItems,
       mode: 'payment',
       customer_email: contact.email,
-      expires_at: expiresAt,
       success_url: `${baseUrl}/pago/gracias?type=alquiler&ref=${refCode}`,
       cancel_url: `${baseUrl}/`,
       metadata: { type: 'equipment', orderGroupId, refCode },
