@@ -1,7 +1,7 @@
 import { Resend } from 'resend'
 
-const FROM = 'BeatFrame <noreply@beatframe.rentals>'
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'hola@beatframe.rentals'
+const FROM = 'BeatFrame <onboarding@resend.dev>'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL || 'gashodg@gmail.com'
 
 function getResend() {
   return new Resend(process.env.RESEND_API_KEY)
